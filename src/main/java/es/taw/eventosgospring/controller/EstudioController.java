@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/estudios")
 public class EstudioController {
 
     private EstudioService estudioService;
@@ -23,29 +22,31 @@ public class EstudioController {
         this.estudioService = estudioService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/estudios")
     public String  doListarEstudios(Model model, HttpSession session) {
-
         return this.doListarEstudiosMostrar(model, session, 1);
     }
 
-    @PostMapping("/{pagina}")
+    @GetMapping("/estudios/{pagina}")
     public String doListarEstudiosMostrar(Model model, HttpSession session, @PathVariable("pagina") Integer pagina) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         List<EstudioDTO> estudioDTOList = this.estudioService.getEstudioDTOList(usuario);
         model.addAttribute("listaEstudios", estudioDTOList);
         model.addAttribute("pagina", pagina);
-
         return "estudios";
     }
 
+    @GetMapping("/estudios/borrar/{id}")
+    public String doBorrarEstudio(Model model, HttpSession session, @PathVariable("id") Integer id) {
 
-    @GetMapping("/crear")
+    }
+
+    @GetMapping("/estudios/crear")
     public String doCrearEstudio(Model model) {
         return "crearEstudio";
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/estudios/guardar")
     public String doGuardarEstudio(Model model, @RequestParam("titulo") String titulo, @RequestParam("anio") String anio, @RequestParam("edad_min") String edad_min, @RequestParam("edad_max") String edad_max, @RequestParam("masculino") String masc, @RequestParam("femenino") String fem, @RequestParam("otros") String otro, @RequestParam("ciudad") String ciudad, HttpSession session) {
 
         Estudio est = new Estudio();

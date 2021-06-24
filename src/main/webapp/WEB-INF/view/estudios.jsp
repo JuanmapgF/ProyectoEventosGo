@@ -116,14 +116,14 @@
                     %>
                     <li class="page-item <%= (pagina > 1) ? "" : "disabled"%>">
 
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>">
+                        <a class="page-link" href="/estudios/<%= pagina - 1%>">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <%
                         if (pagina == totalPaginas && totalPaginas > 2) {
                     %>
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 2%>"><%= pagina - 2%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina - 2%>"><%= pagina - 2%></a></li>
                         <%
                             }
                         %>
@@ -131,27 +131,27 @@
                             if (pagina > 1) {
                         %>
 
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>"><%= pagina - 1%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina - 1%>"><%= pagina - 1%></a></li>
                         <%
                             }
                         %>
 
 
-                    <li class="page-item active"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina%>"><%= pagina%></a></li>
+                    <li class="page-item active"><a class="page-link active" href="/estudios/<%= pagina%>"><%= pagina%></a></li>
                         <%
                             if (pagina < totalPaginas) {
                         %>
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>"><%= pagina + 1%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina + 1%>"><%= pagina + 1%></a></li>
                         <%
                             if (pagina == 1 && totalPaginas > 2) {
                         %>
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 2%>"><%= pagina + 2%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina + 2%>"><%= pagina + 2%></a></li>
                         <%
                                 }
                             }
                         %>
                     <li class="page-item <%= (pagina < totalPaginas) ? "" : "disabled"%>">
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>">
+                        <a class="page-link" href="/estudios/<%= pagina + 1%>">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
