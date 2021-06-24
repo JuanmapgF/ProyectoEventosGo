@@ -1,4 +1,4 @@
-<%@ page import="es.taw.eventosgospring.entity.Usuario" %>
+<%@ page import="es.taw.eventosgospring.dto.UsuarioDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
@@ -16,7 +16,7 @@
 </head>
 
 <%
-    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    UsuarioDTO usuario = (UsuarioDTO) request.getSession().getAttribute("usuario");
 %>
 <body>
 

@@ -43,7 +43,10 @@ public class AutenticarController {
                 strError = "Error de autentificación: credenciales incorrectas.";
                 model.addAttribute("error", strError);
                 strTo = "inicioSesion";
-            } else{
+            } else if(user.getRol() == 0) {
+                sesion.setAttribute("usuario", user);
+                strTo = "adminPrincipal";
+            }else{
                 sesion.setAttribute("usuario", user);
                 strTo="redirect:/listarEventos";
             }

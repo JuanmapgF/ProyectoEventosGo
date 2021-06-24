@@ -169,7 +169,10 @@ public class Usuario {
             mensajeDTOS.add(m.getDTO());
         }
         dto.setMensajesById(mensajeDTOS);
-        dto.setUsuarioEventoById(this.usuarioEventoById.getDTO());
+        if(dto.getRol() == 4){
+            dto.setUsuarioEventoById(this.usuarioEventoById.getDTO());
+        }
+
 
         return dto;
     }
