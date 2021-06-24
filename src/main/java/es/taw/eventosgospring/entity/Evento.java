@@ -3,6 +3,7 @@ package es.taw.eventosgospring.entity;
 import es.taw.eventosgospring.dto.EventoDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -161,6 +162,22 @@ public class Evento {
         dto.setAforo(this.aforo);
         dto.setCoste(this.coste);
         dto.setFechaEvento(this.fechaEvento);
+        // dto.setEventoAforoById(this.eventoAforoById.getId());
+        dto.setFechaFinReservas(this.fechaFinReservas);
+        dto.setMaximoEntradasUsuario(this.maximoEntradasUsuario);
+        dto.setUsuarioByIdCreador(this.getUsuarioByIdCreador().getId());
+
+        List<Integer> etiquetasList = new ArrayList<>();
+        for(EventoEtiqueta e: this.eventoEtiquetasById) {
+            etiquetasList.add(e.getId());
+        }
+        dto.setEventoEtiquetasById(etiquetasList);
+
+        List<Integer> entradasList = new ArrayList<>();
+        for(Entrada e: this.entradasById) {
+            entradasList.add(e.getId());
+        }
+        dto.setEntradasById(entradasList);
 
         return dto;
     }
