@@ -79,7 +79,7 @@
                                 <a class="btn btn-outline-success" href="ServletEventoVer?eventoid=<%= eventos.get(i).getId()%>&accion=editar" role="button">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a class="btn btn-outline-danger" href="ServletEventoBorrar?eventoid=<%= eventos.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-danger" href="/evento/eliminarEvento/<%= eventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>

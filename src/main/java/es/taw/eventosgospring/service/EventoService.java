@@ -57,4 +57,10 @@ public class EventoService {
             return evento.getDTO();
         }
     }
+
+    public void eliminarEvento(Integer eventoid) {
+        Evento evento = this.eventoRepository.findById(eventoid).orElse(null);
+
+        this.eventoRepository.delete(evento);
+    }
 }
