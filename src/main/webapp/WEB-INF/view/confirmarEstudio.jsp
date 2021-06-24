@@ -9,8 +9,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.List"%>
-<%@ page import="es.taw.eventosgo.entity.UsuarioEvento" %>
-<%@ page import="es.taw.eventosgo.entity.Estudio" %>
+<%@ page import="es.taw.eventosgospring.entity.UsuarioEvento" %>
+<%@ page import="es.taw.eventosgospring.entity.Estudio" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

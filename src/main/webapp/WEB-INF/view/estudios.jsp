@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.util.List"%>
-<%@ page import="es.taw.eventosgo.dto.EstudioDTO" %>
+<%@ page import="es.taw.eventosgospring.dto.EstudioDTO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

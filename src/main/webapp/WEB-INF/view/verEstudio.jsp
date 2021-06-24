@@ -11,8 +11,8 @@
 <%@page import="eventosgowebapp.entity.Estudio"%>
 <%@page import="eventosgowebapp.entity.UsuarioEvento"%>
 <%@page import="java.util.List"%>
-<%@ page import="es.taw.eventosgo.entity.UsuarioEvento" %>
-<%@ page import="es.taw.eventosgo.entity.Estudio" %>
+<%@ page import="es.taw.eventosgospring.entity.UsuarioEvento" %>
+<%@ page import="es.taw.eventosgospring.entity.Estudio" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
