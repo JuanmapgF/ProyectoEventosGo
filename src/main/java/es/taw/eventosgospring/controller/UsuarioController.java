@@ -61,7 +61,7 @@ public class UsuarioController {
         } else{
             UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO();
             UsuarioEventoDTO nuevoUsuarioEventoDTO = new UsuarioEventoDTO();
-            strTo="redirect:/listarEventos";
+            strTo="redirect:/evento/listarEventos";
 
             nuevoUsuarioDTO.setRol(4);
             nuevoUsuarioDTO.setNombre(nombre);
