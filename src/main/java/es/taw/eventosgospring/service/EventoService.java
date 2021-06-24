@@ -3,9 +3,12 @@ package es.taw.eventosgospring.service;
 import es.taw.eventosgospring.dao.EventoRepository;
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.entity.Evento;
+import es.taw.eventosgospring.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,5 +40,21 @@ public class EventoService {
         List<Evento> listaEventosDisponibles = this.eventoRepository.findEventosDisponibles(fechaActual);
 
         return this.convertirAListaDTO(listaEventosDisponibles);
+    }
+
+    public List<EventoDTO> listarEventosCreador(Integer id){
+        List<Evento> listaEventosCreador = this.eventoRepository.findByIdCreador(id);
+
+        return this.convertirAListaDTO(listaEventosCreador);
+    }
+
+    public EventoDTO buscarEventoId(Integer id){
+        Evento evento = this.eventoRepository.findById(id).orElse(null);
+
+        if(evento == null){
+            return null;
+        } else{
+            return evento.getDTO();
+        }
     }
 }

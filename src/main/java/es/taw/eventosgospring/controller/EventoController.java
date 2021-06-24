@@ -2,11 +2,14 @@ package es.taw.eventosgospring.controller;
 
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.entity.Evento;
+import es.taw.eventosgospring.entity.Usuario;
 import es.taw.eventosgospring.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -36,7 +39,7 @@ public class EventoController {
         return doListarEventosDisponibles(model, sesion);
     }
 
-    @GetMapping("/listarEventos")
+    @GetMapping("/listarEventosDisponibles")
     public String doListarEventosDisponibles(Model model, HttpSession sesion){
 
         List<EventoDTO> eventos = this.eventoService.listarEventosDisponibles();
@@ -45,4 +48,26 @@ public class EventoController {
 
         return strTo;
     }
+
+    @GetMapping("/listarEventosCreados")
+    public String doListarEventosCreador(Model model, HttpSession sesion){
+
+        UsuarioDTO creador = (UsuarioDTO) sesion.getAttribute("usuario");
+        List<EventoDTO> eventos = this.eventoService.listarEventosCreador(creador.getId());
+        model.addAttribute("eventos", eventos);
+        String strTo="creadorInicio";
+
+        return strTo;
+    }
+
+    @GetMapping("/verEvento/{id}")
+    public String doVerEvento(@PathVariable("id") Integer id, Model model){
+        String strTo = "verEvento";
+
+        EventoDTO evento = this.eventoService.buscarEventoId(id);
+        model.addAttribute("evento", evento);
+
+        return strTo;
+    }
+
 }
