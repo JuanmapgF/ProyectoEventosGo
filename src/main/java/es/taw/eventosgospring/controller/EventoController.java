@@ -35,12 +35,12 @@ public class EventoController {
     }
 
     @GetMapping("/")
-    public String doInit(Model model, HttpSession sesion){
-        return doListarEventosDisponibles(model, sesion);
+    public String doInit(Model model){
+        return doListarEventosDisponibles(model);
     }
 
     @GetMapping("/listarEventosDisponibles")
-    public String doListarEventosDisponibles(Model model, HttpSession sesion){
+    public String doListarEventosDisponibles(Model model){
 
         List<EventoDTO> eventos = this.eventoService.listarEventosDisponibles();
         model.addAttribute("eventosDisponibles", eventos);
@@ -68,6 +68,22 @@ public class EventoController {
         model.addAttribute("evento", evento);
 
         return strTo;
+    }
+
+    @GetMapping("/eliminarEvento/{id}")
+    public String doEliminarEvento(@PathVariable("id") Integer id, Model model, HttpSession sesion){
+
+        UsuarioDTO usuario = (UsuarioDTO) sesion.getAttribute("usuario");
+
+        this.eventoService.eliminarEvento(id);
+
+        if(usuario.getRol() == 1){
+            return doListarEventosCreador(model, sesion);
+        } else if(usuario.getRol() == 4){
+
+        }
+
+       return doListarEventosCreador(model, sesion);
     }
 
 }
