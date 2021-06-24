@@ -1,4 +1,4 @@
-<%@ page import="es.taw.eventosgo.dto.UsuarioDTO" %><%--
+<%@ page import="es.taw.eventosgospring.dto.UsuarioDTO" %><%--
   Created by IntelliJ IDEA.
   User: x Cristhian x
   Date: 18/06/2021

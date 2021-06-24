@@ -6,9 +6,9 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
-<%@ page import="es.taw.eventosgo.entity.Mensaje" %>
-<%@ page import="es.taw.eventosgo.entity.Conversacion" %>
-<%@ page import="es.taw.eventosgo.entity.Usuario" %>
+<%@ page import="es.taw.eventosgospring.entity.Mensaje" %>
+<%@ page import="es.taw.eventosgospring.entity.Conversacion" %>
+<%@ page import="es.taw.eventosgospring.entity.Usuario" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

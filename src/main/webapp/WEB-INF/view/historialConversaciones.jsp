@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.util.List"%>
-<%@ page import="es.taw.eventosgo.entity.Conversacion" %>
+<%@ page import="es.taw.eventosgospring.entity.Conversacion" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
