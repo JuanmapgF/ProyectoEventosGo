@@ -8,11 +8,10 @@ import es.taw.eventosgospring.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,11 +48,18 @@ public class EventoController {
         return strTo;
     }
 
-    @GetMapping("/listarEventosCreados")
-    public String doListarEventosCreador(Model model, HttpSession sesion){
-
+    @GetMapping  ("/listarEventosCreados")
+    public String doListarEventosCreador(@RequestParam(value = "filtro", required = false) String filtro, Model model, HttpSession sesion){
         UsuarioDTO creador = (UsuarioDTO) sesion.getAttribute("usuario");
-        List<EventoDTO> eventos = this.eventoService.listarEventosCreador(creador.getId());
+        Integer creadorid = creador.getId();
+        List<EventoDTO> eventos;
+
+        if(filtro == null || filtro.isEmpty()){
+            eventos = this.eventoService.listarEventosCreador(creadorid);
+        } else{
+            eventos = this.eventoService.listarEventosCreadorFiltro(creadorid, filtro);
+        }
+
         model.addAttribute("eventos", eventos);
         String strTo="creadorInicio";
 
@@ -77,13 +83,14 @@ public class EventoController {
 
         this.eventoService.eliminarEvento(id);
 
+        String filtro="";
         if(usuario.getRol() == 1){
-            return doListarEventosCreador(model, sesion);
+            return doListarEventosCreador(filtro, model, sesion);
         } else if(usuario.getRol() == 4){
 
         }
 
-       return doListarEventosCreador(model, sesion);
+       return doListarEventosCreador(filtro,model, sesion);
     }
 
 }
