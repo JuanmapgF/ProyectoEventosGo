@@ -48,6 +48,12 @@ public class EventoService {
         return this.convertirAListaDTO(listaEventosCreador);
     }
 
+    public List<EventoDTO> listarEventosCreadorFiltro(Integer id, String filtro){
+        List<Evento> listaEventosCreador = this.eventoRepository.findByIdCreadorFiltro(id, filtro);
+
+        return this.convertirAListaDTO(listaEventosCreador);
+    }
+
     public EventoDTO buscarEventoId(Integer id){
         Evento evento = this.eventoRepository.findById(id).orElse(null);
 

@@ -46,8 +46,8 @@
 
                 <h1 class="display-1">Mis eventos</h1>
 
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" name="filtroEvento" placeholder="Buscar" aria-label="Search">
+                <form class="d-flex" action="/evento/listarEventosCreados">
+                    <input class="form-control me-2" type="search" name="filtro" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
             </header>
