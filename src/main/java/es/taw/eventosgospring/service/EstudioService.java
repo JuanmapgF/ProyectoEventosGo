@@ -196,4 +196,22 @@ public class EstudioService {
 
         return estudioDTO;
     }
+
+    public void guardarEstudio(EstudioDTO estudioDTO) {
+
+        Optional<Usuario> opt = this.usuarioRepository.findById(estudioDTO.getUsuarioIdAnalista());
+        Usuario analista = opt.get();
+
+        Estudio estudio = new Estudio();
+        estudio.setTitulo(estudioDTO.getTitulo());
+        estudio.setResultado(estudioDTO.getResultado());
+        System.out.println(estudio.getResultado());
+        estudio.setUsuarioByIdAnalista(analista);
+
+        if (estudioDTO.getId() != null) {
+            estudio.setId(estudioDTO.getId());
+        }
+
+        this.estudioRepository.save(estudio);
+    }
 }

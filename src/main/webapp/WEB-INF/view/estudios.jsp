@@ -84,10 +84,10 @@
                                 <a class="btn btn-outline-info" href="/estudios/info/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a class="btn btn-outline-success" href="ServletEstudioEditar?estudio=<%= estudios.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-success" href="/estudios/editar/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a class="btn btn-outline-danger" href="ServletEstudioEliminar?estudio=<%= estudios.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-danger" href="/estudios/borrar/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>

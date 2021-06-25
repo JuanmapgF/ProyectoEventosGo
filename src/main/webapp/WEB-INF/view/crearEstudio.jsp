@@ -1,4 +1,5 @@
-<%-- 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--
     Document   : crearEstudio
     Created on : 29-abr-2021, 14:11:36
     Author     : juanm
@@ -6,6 +7,7 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@ page import="es.taw.eventosgospring.vo.EstudioResultado" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -34,53 +36,99 @@
 
         <!-- Formulario de crear un Estudio -->
 
-        <form class="container shadow-lg p-3 mb-5 bg-body rounded" action="/estudios/almacenar/">
-
+        <form:form class="container shadow-lg p-3 mb-5 bg-body rounded" method="post" action="/estudios/almacenar" modelAttribute="resultado">
             <div class="alert alert-info mb-3">Todos los estudios estadísticos que eres capaz de crear serán vinculados a los usuarios que han asistido a eventos, restringido a los filtros que t&uacute; como analista has considerado de estudio.</div>
             <div class="mb-3">
                 <label for="titulo" class="form-label">T&iacute;tulo</label>
-                <input type="text" name="titulo" class="form-control" id="titulo"/>
+                <form:input path="titulo" type="text" class="form-control" id="titulo"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">A&ntilde;o evento</label>
-                <input type="number" class="form-control" name="anio" min="2000" max="<%= anio.format(new Date())%>"/>
+                <form:input path="anio" type="number" class="form-control" min="2000" max="<%= anio.format(new Date())%>"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Edad m&iacute;nima</label>
-                <input type="range" class="form-range" name="edad_min" onchange="updateTextInput(this.value, 'emin');" value="0"/>
+                <form:input path="edad_min" type="range" class="form-range" onchange="updateTextInput(this.value, 'emin');" value="0"/>
                 <input type="text" readonly class="form-control-plaintext text-center" value="0" id="emin"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Edad m&aacute;xima</label>
-                <input type="range" class="form-range" name="edad_max" onchange="updateTextInput(this.value, 'emax');" value="100"/>
+                <form:input path="edad_max" type="range" class="form-range" onchange="updateTextInput(this.value, 'emax');" value="100"/>
                 <input type="text" readonly class="form-control-plaintext text-center" value="100" id="emax"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Sexo</label>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="0" name="masculino">
+                    <form:checkbox path="masculino" class="form-check-input" value="0"/>
                     <label class="form-check-label">Masculino</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="1" name="femenino">
+                    <form:checkbox path="femenino" class="form-check-input" value="1"/>
                     <label class="form-check-label">Femenino</label>
                 </div>
                 <div class="mb-3 form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="2" name="otro">
+                    <form:checkbox path="otro" class="form-check-input" value="2"/>
                     <label class="form-check-label">Otro</label>
                 </div>
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Ciudad</label>
-                <input type="text" class="form-control" name="ciudad"/>
+                <form:input path="ciudad" type="text" class="form-control"/>
             </div>
             <div class="pt-3">
                 <button type="submit" class="btn btn-primary btn-lg">Siguiente</button>
                 <button type="reset" class="btn btn-secondary btn-sm">Limpiar</button>
                 <a class="btn btn-danger btn-sm" href="/estudios/">Cancelar</a>
             </div>
-        </form>
+        </form:form>
+
+<%--        <form class="container shadow-lg p-3 mb-5 bg-body rounded" action="/estudios/almacenar" method="post">--%>
+
+<%--            <div class="alert alert-info mb-3">Todos los estudios estadísticos que eres capaz de crear serán vinculados a los usuarios que han asistido a eventos, restringido a los filtros que t&uacute; como analista has considerado de estudio.</div>--%>
+<%--            <div class="mb-3">--%>
+<%--                <label for="titulo" class="form-label">T&iacute;tulo</label>--%>
+<%--                <input type="text" name="titulo" class="form-control" id="titulo"/>--%>
+<%--            </div>--%>
+<%--            <div class="mb-3">--%>
+<%--                <label class="form-label">A&ntilde;o evento</label>--%>
+<%--                <input type="number" class="form-control" name="anio" min="2000" max="<%= anio.format(new Date())%>"/>--%>
+<%--            </div>--%>
+<%--            <div class="mb-3">--%>
+<%--                <label class="form-label">Edad m&iacute;nima</label>--%>
+<%--                <input type="range" class="form-range" name="edad_min" onchange="updateTextInput(this.value, 'emin');" value="0"/>--%>
+<%--                <input type="text" readonly class="form-control-plaintext text-center" value="0" id="emin"/>--%>
+<%--            </div>--%>
+<%--            <div class="mb-3">--%>
+<%--                <label class="form-label">Edad m&aacute;xima</label>--%>
+<%--                <input type="range" class="form-range" name="edad_max" onchange="updateTextInput(this.value, 'emax');" value="100"/>--%>
+<%--                <input type="text" readonly class="form-control-plaintext text-center" value="100" id="emax"/>--%>
+<%--            </div>--%>
+<%--            <div class="mb-3">--%>
+<%--                <label class="form-label">Sexo</label>--%>
+<%--                <div class="form-check form-switch">--%>
+<%--                    <input class="form-check-input" type="checkbox" value="0" name="masculino">--%>
+<%--                    <label class="form-check-label">Masculino</label>--%>
+<%--                </div>--%>
+<%--                <div class="form-check form-switch">--%>
+<%--                    <input class="form-check-input" type="checkbox" value="1" name="femenino">--%>
+<%--                    <label class="form-check-label">Femenino</label>--%>
+<%--                </div>--%>
+<%--                <div class="mb-3 form-check form-switch">--%>
+<%--                    <input class="form-check-input" type="checkbox" value="2" name="otro">--%>
+<%--                    <label class="form-check-label">Otro</label>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+
+<%--            <div class="mb-3">--%>
+<%--                <label class="form-label">Ciudad</label>--%>
+<%--                <input type="text" class="form-control" name="ciudad"/>--%>
+<%--            </div>--%>
+<%--            <div class="pt-3">--%>
+<%--                <button type="submit" class="btn btn-primary btn-lg">Siguiente</button>--%>
+<%--                <button type="reset" class="btn btn-secondary btn-sm">Limpiar</button>--%>
+<%--                <a class="btn btn-danger btn-sm" href="/estudios/">Cancelar</a>--%>
+<%--            </div>--%>
+<%--        </form>--%>
         <script>
             function updateTextInput(val, inp) {
                 document.getElementById(inp).value = val;

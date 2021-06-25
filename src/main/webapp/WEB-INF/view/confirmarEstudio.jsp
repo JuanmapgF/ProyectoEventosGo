@@ -11,6 +11,7 @@
 <%@ page import="es.taw.eventosgospring.entity.UsuarioEvento" %>
 <%@ page import="es.taw.eventosgospring.dto.UsuarioEventoDTO" %>
 <%@ page import="es.taw.eventosgospring.dto.EstudioDTO" %>
+<%@ page import="java.util.Scanner" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,29 @@
         <%
             List<UsuarioEventoDTO> lista = (List) request.getAttribute("lista");
             EstudioDTO e = (EstudioDTO) request.getAttribute("estudio");
+
+            int edadMinima;
+            int edadMaxima;
+            String ciudad;
+            int anio;
+            int masculino;
+            int femenino;
+            int otro;
+
+
+            // Extraer valores de los filtros
+            try (Scanner sc = new Scanner(e.getResultado())) {
+                sc.useDelimiter(";");
+                edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                String auxsc = sc.next();
+                ciudad = (sc.hasNext() && !auxsc.isEmpty()) ? auxsc : null;
+                anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            }
+
         %>
 
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -48,16 +72,16 @@
                     if (e.getId() != null) {
                         %>
                         
-                        <a href="ServletAlmacenarEstudio?estudio=<%= e.getId() %>&titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Guardar</a>
-                        <a href="ServletAlmacenarEstudio?titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Guardar como nuevo</a>
+                        <a href="/estudios/guardar/<%= e.getTitulo() %>/<%= edadMinima %>/<%= edadMaxima %>/<%= ciudad %>/<%= anio %>/<%= masculino %>/<%= femenino %>/<%= otro %>/<%= e.getId() %>" class="btn btn-primary" role="button">Guardar</a>
+                        <a href="/estudios/guardar/<%= e.getTitulo() %>/<%= edadMinima %>/<%= edadMaxima %>/<%= ciudad %>/<%= anio %>/<%= masculino %>/<%= femenino %>/<%= otro %>/<%= -1 %>" class="btn btn-primary" role="button">Guardar como nuevo</a>
                         
                         
                         <%
                     } else {
                         %>
                         
-                        <a href="ServletAlmacenarEstudio?titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Crear Estudio</a>
-                        
+                        <a href="/estudios/guardar/<%= e.getTitulo() %>/<%= edadMinima %>/<%= edadMaxima %>/<%= ciudad %>/<%= anio %>/<%= masculino %>/<%= femenino %>/<%= otro %>/<%= -1 %>" class="btn btn-primary" role="button">Crear Estudio</a>
+
                         <%
 
                     }

@@ -6,6 +6,7 @@ import es.taw.eventosgospring.dto.UsuarioDTO;
 import es.taw.eventosgospring.entity.Estudio;
 import es.taw.eventosgospring.entity.Usuario;
 import es.taw.eventosgospring.service.EstudioService;
+import es.taw.eventosgospring.vo.EstudioResultado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @Controller
 @RequestMapping("estudios")
@@ -62,12 +64,22 @@ public class EstudioController {
     }
 
     @GetMapping("/crear")
-    public String doCrearEstudio(Model model) {  return "crearEstudio";   }
+    public String doCrearEstudio(Model model, HttpSession session) {
+        EstudioResultado estudioResultado = new EstudioResultado();
 
-    @PostMapping("/almacenar/")
-    public String doAlmacenarEstudio(Model model, @RequestParam("titulo") String titulo, @RequestParam("anio") String anio, @RequestParam("edad_min") String edad_min, @RequestParam("edad_max") String edad_max, @RequestParam("masculino") String masc, @RequestParam("femenino") String fem, @RequestParam("otros") String otro, @RequestParam("ciudad") String ciudad, HttpSession session) {
+        model.addAttribute("resultado", estudioResultado);
+
+        return "crearEstudio";
+    }
+
+    @PostMapping("/almacenar")
+    public String doAlmacenarEstudio(@ModelAttribute("resultado") EstudioResultado estudioResultado, Model model, HttpSession session) {
         UsuarioDTO usuarioDTO = (UsuarioDTO) session.getAttribute("usuario");
-        EstudioDTO estudioDTO = this.estudioService.getEstudioDTOAlmacenado(titulo, (anio != null && !anio.isEmpty()) ? anio : "-1", edad_min, edad_max, (masc!=null) ? masc : "-1", (fem != null) ? fem : "-1", (otro != null) ? otro : "-1", (ciudad != null && !ciudad.isEmpty()) ? ciudad : "", usuarioDTO.getId());
+        EstudioDTO estudioDTO = this.estudioService.getEstudioDTOAlmacenado(estudioResultado.getTitulo(), (estudioResultado.getAnio() != null) ? String.valueOf(estudioResultado.getAnio()) : "-1", String.valueOf(estudioResultado.getEdad_min()), String.valueOf(estudioResultado.getEdad_max()), (estudioResultado.getMasculino() != null) ? String.valueOf(estudioResultado.getMasculino()) : "-1", (estudioResultado.getFemenino() != null) ? String.valueOf(estudioResultado.getFemenino()) : "-1", (estudioResultado.getOtro() != null) ? String.valueOf(estudioResultado.getOtro()) : "-1", estudioResultado.getCiudad(), usuarioDTO.getId());
+
+        if (estudioResultado.getId() != -1) {
+            estudioDTO.setId(estudioResultado.getId());
+        }
 
         model.addAttribute("estudio", estudioDTO);
         model.addAttribute("lista", this.estudioService.getResultadoEstudio(estudioDTO.getResultado()));
@@ -75,13 +87,78 @@ public class EstudioController {
         return "confirmarEstudio";
     }
 
-    @PostMapping("/guardar")
-    public String doGuardarEstudio(Model model, @RequestParam("titulo") String titulo, @RequestParam("anio") String anio, @RequestParam("edad_min") String edad_min, @RequestParam("edad_max") String edad_max, @RequestParam("masculino") String masc, @RequestParam("femenino") String fem, @RequestParam("otros") String otro, @RequestParam("ciudad") String ciudad, HttpSession session) {
+    @GetMapping("/guardar/{titulo}/{emin}/{emax}/{ciudad}/{anio}/{masc}/{fem}/{otro}/{id}")
+    public String doGuardarEstudio(Model model, @PathVariable("titulo") String titulo, @PathVariable("emin") String emin, @PathVariable("emax") String emax, @PathVariable("ciudad") String ciudad, @PathVariable("anio") String anio, @PathVariable("masc") String masc, @PathVariable("fem") String fem, @PathVariable("otro") String otro, @PathVariable("id") String id, HttpSession session) {
 
-        Estudio est = new Estudio();
+        String resultado = emin + ";" + emax + ";" + (ciudad == null || (ciudad.equals("null")) ? "" : ciudad) + ";" + anio + ";" + masc + ";" + fem + ";" + otro;
+
+        UsuarioDTO usuarioDTO = (UsuarioDTO) session.getAttribute("usuario");
+
+        EstudioDTO est = new EstudioDTO();
         est.setTitulo(titulo);
-        est.setUsuarioByIdAnalista( (Usuario) session.getAttribute("usuario"));
+        est.setResultado(resultado);
+        est.setUsuarioIdAnalista(usuarioDTO.getId());
 
-        return "";
+        if (Integer.parseInt(id) == -1) {
+            est.setId(Integer.parseInt(id));
+        }
+
+        this.estudioService.guardarEstudio(est);
+
+        return "redirect:/estudios/";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String doEditarEstudio(Model model, @PathVariable("id") Integer id) {
+
+        EstudioDTO estudioDTO = this.estudioService.getEstudioDTOById(id);
+
+        int edadMinima;
+        int edadMaxima;
+        String ciudad;
+        int anio;
+        int masculino;
+        int femenino;
+        int otro;
+
+
+        // Extraer valores de los filtros
+        try (Scanner sc = new Scanner(estudioDTO.getResultado())) {
+            sc.useDelimiter(";");
+            edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            String auxsc = sc.next();
+            ciudad = (sc.hasNext() && !auxsc.isEmpty()) ? auxsc : null;
+            anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+        }
+
+        model.addAttribute("idEstudio", estudioDTO.getId());
+        model.addAttribute("titulo", estudioDTO.getTitulo());
+        model.addAttribute("eMin", edadMinima);
+        model.addAttribute("eMax", edadMaxima);
+        model.addAttribute("anio", anio);
+        model.addAttribute("ciudad", ciudad);
+        model.addAttribute("masculino", masculino);
+        model.addAttribute("femenino", femenino);
+        model.addAttribute("otro", otro);
+
+        EstudioResultado estudioResultado = new EstudioResultado();
+        estudioResultado.setTitulo(estudioDTO.getTitulo());
+        estudioResultado.setEdad_min(edadMinima);
+        estudioResultado.setEdad_max(edadMaxima);
+        estudioResultado.setAnio(anio);
+        estudioResultado.setCiudad(ciudad);
+        estudioResultado.setMasculino(masculino);
+        estudioResultado.setFemenino(femenino);
+        estudioResultado.setOtro(otro);
+        estudioResultado.setId(estudioDTO.getId());
+
+
+        model.addAttribute("resultado", estudioResultado);
+
+        return "editarEstudio";
     }
 }
