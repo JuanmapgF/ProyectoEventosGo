@@ -1,6 +1,8 @@
 package es.taw.eventosgospring.controller;
 
+import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.service.EventoService;
 import es.taw.eventosgospring.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class AutenticarController {
     private UsuarioService usuarioService;
+    private EventoService eventoService;
+
+    @Autowired
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
 
     @Autowired
     public void setUsuarioService(UsuarioService usuarioService) {
@@ -39,21 +48,39 @@ public class AutenticarController {
         } else{
             UsuarioDTO user = this.usuarioService.comprobarCredenciales(correo, pass);
 
-            if(user == null){
+            if(user == null) {
                 strError = "Error de autentificación: credenciales incorrectas.";
                 model.addAttribute("error", strError);
                 strTo = "inicioSesion";
-            } else if(user.getRol() == 0) {
+            } else{
+
                 sesion.setAttribute("usuario", user);
-                strTo = "adminPrincipal";
-            }else{
-                sesion.setAttribute("usuario", user);
-                strTo="redirect:/listarEventos";
+
+                switch (user.getRol()){
+                    case 0: strTo="adminPrincipal";
+                            break;
+
+                    case 1: strTo="redirect:/evento/listarEventosCreados";
+                            break;
+
+                    case 2: break;
+
+                    case 3: break;
+
+                    case 4: strTo="redirect:/evento/listarEventosDisponibles";
+                            break;
+
+                    default: break;
+                }
+
             }
         }
 
+
+
         return strTo;
     }
+
 
     @GetMapping ("/cerrarSesion")
     public String doCerrarSesion(HttpSession sesion){

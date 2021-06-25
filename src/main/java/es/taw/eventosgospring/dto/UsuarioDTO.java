@@ -8,12 +8,12 @@ public class UsuarioDTO {
     private String contrasena;
     private String nombre;
     private Integer rol;
-    private List<ConversacionDTO> conversacionsById;
-    private List<ConversacionDTO> conversacionsById_0;
-    private List<EstudioDTO> estudiosById;
-    private List<EventoDTO> eventosById;
-    private List<MensajeDTO> mensajesById;
-    private UsuarioEventoDTO usuarioEventoById;
+    private List<Integer> conversacionsById;
+    private List<Integer> conversacionsById_0;
+    private List<Integer> estudiosById;
+    private List<Integer> eventosById;
+    private List<Integer> mensajesById;
+    private Integer usuarioEventoById;
 
     public Integer getId() {
         return id;
@@ -55,51 +55,51 @@ public class UsuarioDTO {
         this.rol = rol;
     }
 
-    public List<ConversacionDTO> getConversacionsById() {
+    public List<Integer> getConversacionsById() {
         return conversacionsById;
     }
 
-    public void setConversacionsById(List<ConversacionDTO> conversacionsById) {
+    public void setConversacionsById(List<Integer> conversacionsById) {
         this.conversacionsById = conversacionsById;
     }
 
-    public List<ConversacionDTO> getConversacionsById_0() {
+    public List<Integer> getConversacionsById_0() {
         return conversacionsById_0;
     }
 
-    public void setConversacionsById_0(List<ConversacionDTO> conversacionsById_0) {
+    public void setConversacionsById_0(List<Integer> conversacionsById_0) {
         this.conversacionsById_0 = conversacionsById_0;
     }
 
-    public List<EstudioDTO> getEstudiosById() {
+    public List<Integer> getEstudiosById() {
         return estudiosById;
     }
 
-    public void setEstudiosById(List<EstudioDTO> estudiosById) {
+    public void setEstudiosById(List<Integer> estudiosById) {
         this.estudiosById = estudiosById;
     }
 
-    public List<EventoDTO> getEventosById() {
+    public List<Integer> getEventosById() {
         return eventosById;
     }
 
-    public void setEventosById(List<EventoDTO> eventosById) {
+    public void setEventosById(List<Integer> eventosById) {
         this.eventosById = eventosById;
     }
 
-    public List<MensajeDTO> getMensajesById() {
+    public List<Integer> getMensajesById() {
         return mensajesById;
     }
 
-    public void setMensajesById(List<MensajeDTO> mensajesById) {
+    public void setMensajesById(List<Integer> mensajesById) {
         this.mensajesById = mensajesById;
     }
 
-    public UsuarioEventoDTO getUsuarioEventoById() {
+    public Integer getUsuarioEventoById() {
         return usuarioEventoById;
     }
 
-    public void setUsuarioEventoById(UsuarioEventoDTO usuarioEventoById) {
+    public void setUsuarioEventoById(Integer usuarioEventoById) {
         this.usuarioEventoById = usuarioEventoById;
     }
 }
