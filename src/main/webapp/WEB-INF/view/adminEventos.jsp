@@ -75,7 +75,7 @@
                 <td> <%= listaEventos.get(i).getCoste()%> </a></td>
                 <td> <%= listaEventos.get(i).getMaximoEntradasUsuario()%> </a></td>
                 <td>
-                    <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= listaEventos.get(i).getId()%>" role="button">
+                    <a class="btn btn-outline-info" href="EventoVerAdmin?id=<%= listaEventos.get(i).getId()%>" role="button">
                         <i class="bi bi-eye"></i>
                     </a>
                     <a class="btn btn-outline-success" href="ServletAdminCrudEventoEditar?id=<%= listaEventos.get(i).getId()%>" role="button">
