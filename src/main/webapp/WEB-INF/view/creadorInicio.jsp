@@ -41,7 +41,7 @@
             <header class="container">
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-primary bi bi-hammer" href="crearEvento.jsp" role="button"> Crear evento</a>
+                    <a class="btn btn-primary bi bi-hammer" href="/evento/crearEvento" role="button"> Crear evento</a>
                 </div>
 
                 <h1 class="display-1">Mis eventos</h1>
@@ -76,7 +76,7 @@
                                 <a class="btn btn-outline-info" href="/evento/verEvento/<%= eventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a class="btn btn-outline-success" href="/evento/editarEvento<%= eventos.get(i).getId()%>&accion=editar" role="button">
+                                <a class="btn btn-outline-success" href="/evento/editarEvento/<%= eventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 <a class="btn btn-outline-danger" href="/evento/eliminarEvento/<%= eventos.get(i).getId()%>" role="button">

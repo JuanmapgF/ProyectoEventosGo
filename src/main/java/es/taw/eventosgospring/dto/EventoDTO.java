@@ -112,4 +112,6 @@ public class EventoDTO {
     public void setEventoEtiquetasById(List<Integer> eventoEtiquetasById) {
         this.eventoEtiquetasById = eventoEtiquetasById;
     }
+
+
 }

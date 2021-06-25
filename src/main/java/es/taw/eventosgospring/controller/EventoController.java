@@ -1,9 +1,11 @@
 package es.taw.eventosgospring.controller;
 
+import es.taw.eventosgospring.dto.EtiquetaDTO;
 import es.taw.eventosgospring.dto.EventoDTO;
+import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
-import es.taw.eventosgospring.entity.Evento;
-import es.taw.eventosgospring.entity.Usuario;
+import es.taw.eventosgospring.entity.*;
+import es.taw.eventosgospring.service.EventoEtiquetaService;
 import es.taw.eventosgospring.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,16 +14,23 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("evento")
 public class EventoController {
     private EventoService eventoService;
+    private EventoEtiquetaService eventoEtiquetaService;
 
     @Autowired
     public void setEventoService(EventoService eventoService) {
         this.eventoService = eventoService;
+    }
+
+    @Autowired
+    public void setEventoEtiquetaService(EventoEtiquetaService eventoEtiquetaService) {
+        this.eventoEtiquetaService = eventoEtiquetaService;
     }
 
     private String comprobarUsuarioNoAutentificado (HttpSession sesion){
@@ -78,10 +87,16 @@ public class EventoController {
 
     @GetMapping("/editarEvento/{id}")
     public String doEditarEvento(@PathVariable("id") Integer id, Model model){
-        String strTo = "verEvento";
+        String strTo = "eventoEditar";
 
-        EventoDTO evento = this.eventoService.buscarEventoId(id);
-        model.addAttribute("evento", evento);
+        EventoDTO eventoDTO = this.eventoService.buscarEventoId(id);
+        Evento evento = this.eventoService.buscarEvento(id);
+        String etiquetas = "";
+        for(EventoEtiqueta e :evento.getEventoEtiquetasById()) {
+            etiquetas += e.getEtiquetaByIdEtiqueta().getNombre();
+        }
+        model.addAttribute("evento", eventoDTO);
+        model.addAttribute("etiquetas",etiquetas);
 
         return strTo;
     }
@@ -101,6 +116,23 @@ public class EventoController {
         }
 
        return this.doListarEventosCreador(filtro,model, sesion);
+    }
+
+    @GetMapping("/crearEvento")
+    public String doCrearEvento(Model model, HttpSession sesion){
+        return "crearEvento";
+    }
+
+    @GetMapping("/guardarEvento")
+    public String doGuardarEvento(@RequestParam("titulo")String titulo,@RequestParam("descripcion")String descripcion,
+        @RequestParam("fechaEvento")Date fechaEvento,@RequestParam("fechaEntradas")Date fechaEntradas,
+        @RequestParam("coste")Double coste,@RequestParam("aforo")Integer aforo,@RequestParam("entradas")Integer entradas,
+        @RequestParam("etiquetas")String etiquetas,Model model, HttpSession sesion){
+        UsuarioDTO usuario = (UsuarioDTO) sesion.getAttribute("usuario");
+
+
+
+        return "";
     }
 
 }

@@ -1,6 +1,11 @@
 package es.taw.eventosgospring.entity;
 
+import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
+import es.taw.eventosgospring.dto.UsuarioDTO;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -51,5 +56,14 @@ public class EventoEtiqueta {
 
     public void setEtiquetaByIdEtiqueta(Etiqueta etiquetaByIdEtiqueta) {
         this.etiquetaByIdEtiqueta = etiquetaByIdEtiqueta;
+    }
+
+    @Transient
+    public EventoEtiquetaDTO getDTO(){
+        EventoEtiquetaDTO dto = new EventoEtiquetaDTO();
+        dto.setId(this.getId());
+
+
+        return dto;
     }
 }

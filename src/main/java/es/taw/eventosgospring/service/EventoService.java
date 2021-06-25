@@ -60,6 +60,16 @@ public class EventoService {
         return this.convertirAListaDTO(listaEventosCreador);
     }
 
+    public Evento buscarEvento(Integer id){
+        Evento evento = this.eventoRepository.findById(id).orElse(null);
+
+        if(evento == null){
+            return null;
+        } else{
+            return evento;
+        }
+    }
+
     public EventoDTO buscarEventoId(Integer id){
         Evento evento = this.eventoRepository.findById(id).orElse(null);
 
