@@ -42,6 +42,12 @@ public class EventoService {
         return this.convertirAListaDTO(listaEventosDisponibles);
     }
 
+
+    public List<EventoDTO> findAll() {
+        List<Evento> listaEventos = this.eventoRepository.findAll();
+        return this.convertirAListaDTO(listaEventos);
+    }
+
     public List<EventoDTO> listarEventosCreador(Integer id){
         List<Evento> listaEventosCreador = this.eventoRepository.findByIdCreador(id);
 

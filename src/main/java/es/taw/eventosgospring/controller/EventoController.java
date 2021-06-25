@@ -76,6 +76,16 @@ public class EventoController {
         return strTo;
     }
 
+    @GetMapping("/editarEvento/{id}")
+    public String doEditarEvento(@PathVariable("id") Integer id, Model model){
+        String strTo = "verEvento";
+
+        EventoDTO evento = this.eventoService.buscarEventoId(id);
+        model.addAttribute("evento", evento);
+
+        return strTo;
+    }
+
     @GetMapping("/eliminarEvento/{id}")
     public String doEliminarEvento(@PathVariable("id") Integer id, Model model, HttpSession sesion){
 
@@ -85,12 +95,12 @@ public class EventoController {
 
         String filtro="";
         if(usuario.getRol() == 1){
-            return doListarEventosCreador(filtro, model, sesion);
+            return this.doListarEventosCreador(filtro, model, sesion);
         } else if(usuario.getRol() == 4){
 
         }
 
-       return doListarEventosCreador(filtro,model, sesion);
+       return this.doListarEventosCreador(filtro,model, sesion);
     }
 
 }

@@ -16,7 +16,7 @@
 </head>
 
 <%
-    UsuarioDTO usuario = (UsuarioDTO) request.getSession().getAttribute("usuario");
+    //UsuarioDTO usuario = (UsuarioDTO) request.getSession().getAttribute("usuario");
 %>
 <body>
 

@@ -27,20 +27,20 @@
         EventoDTO evento = (EventoDTO) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
         Integer numeroEntradas = (Integer)request.getAttribute("numeroEntradas");
-        UsuarioDTO usuario = (UsuarioDTO) request.getSession().getAttribute("usuario");
+        UsuarioDTO usuarioDTO = (UsuarioDTO) request.getSession().getAttribute("usuario");
         
         String volver = "ServletCreadorPrincipal";
         
-        if(usuario.getRol() == 0){
-            volver = "ServletAdminEventoCargar";
-        }else if (usuario.getRol() == 1 ){
-            volver = "/evento/listar";
+        if(usuarioDTO.getRol() == 0){
+            volver = "/EventosCargarAdmin";
+        }else if (usuarioDTO.getRol() == 1 ){
+            volver = "/evento/listarEventosCreados";
         }
 
     %>
     
     <% 
-        if(usuario == null){
+        if(usuarioDTO == null){
     %>
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->  
         <p> Inicie Sesion o Registrese si aun no lo esta</p></br>    
@@ -50,7 +50,7 @@
 
 
     <body>
-        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->  
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
