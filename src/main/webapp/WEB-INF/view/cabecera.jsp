@@ -81,10 +81,10 @@
           if (rol == 0) {
         %>
         <li class="nav-item">
-          <a class="nav-link" href="admin/UsuarioCargar">Lista Usuarios</a>
+          <a class="nav-link" href="UsuarioCargarAdmin">Lista Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="admin/EventosCargar">Lista Eventos</a>
+          <a class="nav-link" href="EventosCargarAdmin">Lista Eventos</a>
         </li>
         <%
           }

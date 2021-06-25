@@ -38,4 +38,10 @@ public class EventoService {
 
         return this.convertirAListaDTO(listaEventosDisponibles);
     }
+
+
+    public List<EventoDTO> findAll() {
+        List<Evento> listaEventos = this.eventoRepository.findAll();
+        return this.convertirAListaDTO(listaEventos);
+    }
 }

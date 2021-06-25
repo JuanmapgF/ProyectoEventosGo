@@ -13,4 +13,6 @@ public interface EventoRepository extends JpaRepository<Evento, Integer> {
     @Query("SELECT e from Evento e WHERE e.fechaEvento >= :fechaActual")
     public List<Evento> findEventosDisponibles(@Param("fechaActual") Date fechaActual );
 
+
+
 }
