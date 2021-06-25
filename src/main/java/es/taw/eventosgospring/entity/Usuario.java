@@ -169,6 +169,13 @@ public class Usuario {
             mensajeDTOS.add(m.getId());
         }
         dto.setMensajesById(mensajeDTOS);
+
+        List<Integer> eventosDTO = new ArrayList<>();
+        for(Evento e: this.eventosById){
+            eventosDTO.add(e.getId());
+        }
+        dto.setEventosById(eventosDTO);
+
         if(dto.getRol () == 4){
             dto.setUsuarioEventoById(this.usuarioEventoById.getId());
         }

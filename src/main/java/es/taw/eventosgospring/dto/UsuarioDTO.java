@@ -102,4 +102,31 @@ public class UsuarioDTO {
     public void setUsuarioEventoById(Integer usuarioEventoById) {
         this.usuarioEventoById = usuarioEventoById;
     }
+
+    public String getRolDescripccion() {
+        String rol = null;
+
+        switch (this.getRol()){
+            case 0:         // Admin
+                rol = "Administrador";
+                break;
+
+            case 1:         // Creador
+                rol = "Creador";
+                break;
+
+            case 2:         // Teleoperador
+                rol = "Teleoperador";
+                break;
+
+            case 3:         // Analista
+                rol = "Analista";
+                break;
+
+            case 4:         // Usuario evento
+                rol = "Usuario";
+                break;
+        }
+        return rol;
+    }
 }

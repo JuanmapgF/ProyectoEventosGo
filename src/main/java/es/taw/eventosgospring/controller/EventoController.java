@@ -1,19 +1,26 @@
 package es.taw.eventosgospring.controller;
 
 import es.taw.eventosgospring.dto.EntradaDTO;
+import es.taw.eventosgospring.dto.EtiquetaDTO;
 import es.taw.eventosgospring.dto.EventoDTO;
+import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
 import es.taw.eventosgospring.dto.UsuarioEventoDTO;
 import es.taw.eventosgospring.entity.Evento;
 import es.taw.eventosgospring.entity.Usuario;
+import es.taw.eventosgospring.entity.*;
+import es.taw.eventosgospring.service.EventoEtiquetaService;
 import es.taw.eventosgospring.service.EventoService;
+import es.taw.eventosgospring.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +28,22 @@ import java.util.Map;
 @RequestMapping("evento")
 public class EventoController {
     private EventoService eventoService;
+    private EventoEtiquetaService eventoEtiquetaService;
+    private UsuarioService usuarioService;
 
     @Autowired
     public void setEventoService(EventoService eventoService) {
         this.eventoService = eventoService;
+    }
+
+    @Autowired
+    public void setEventoEtiquetaService(EventoEtiquetaService eventoEtiquetaService) {
+        this.eventoEtiquetaService = eventoEtiquetaService;
+    }
+
+    @Autowired
+    public void setUsuarioService(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     private String comprobarUsuarioNoAutentificado (HttpSession sesion){
@@ -81,10 +100,16 @@ public class EventoController {
 
     @GetMapping("/editarEvento/{id}")
     public String doEditarEvento(@PathVariable("id") Integer id, Model model){
-        String strTo = "verEvento";
+        String strTo = "eventoEditar";
 
-        EventoDTO evento = this.eventoService.buscarEventoId(id);
-        model.addAttribute("evento", evento);
+        EventoDTO eventoDTO = this.eventoService.buscarEventoId(id);
+        Evento evento = this.eventoService.buscarEvento(id);
+        String etiquetas = "";
+        for(EventoEtiqueta e :evento.getEventoEtiquetasById()) {
+            etiquetas += e.getEtiquetaByIdEtiqueta().getNombre();
+        }
+        model.addAttribute("evento", eventoDTO);
+        model.addAttribute("etiquetas",etiquetas);
 
         return strTo;
     }
@@ -113,15 +138,54 @@ public class EventoController {
         Map<EventoDTO, Integer> eventos;
 
         if(filtro == null || filtro.isEmpty()){
-            eventos = this.eventoService.listarEventosAsistidos(user.getId());
         } else{
+            eventos = this.eventoService.listarEventosAsistidos(user.getId());
             eventos = this.eventoService.listarEventosAsistidosFiltro(filtro, user.getId());
+
         }
-
         model.addAttribute("eventos", eventos);
-
         return "usuarioEventos";
+
+    }
+    @GetMapping("/crearEvento")
+    public String doCrearEvento(Model model, HttpSession sesion){
+        return "crearEvento";
     }
 
+    @GetMapping("/guardarEvento")
+    public String doGuardarEvento(@RequestParam("id")Integer id,@RequestParam("titulo")String titulo,
+        @RequestParam("fechaEntradas")Date fechaEntradas, @RequestParam("coste")Double coste,
+        @RequestParam("descripcion")String descripcion,@RequestParam("fechaEvento")Date fechaEvento,
+        @RequestParam("aforo")Integer aforo,@RequestParam("entradas")Integer entradas,
+        @RequestParam("etiquetas")String strEtiquetas,Model model, HttpSession sesion){
 
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        UsuarioDTO usuario = (UsuarioDTO) sesion.getAttribute("usuario");
+        EventoDTO nuevoEvento;
+        String[] etiquetas = strEtiquetas.split("\\W");
+        Usuario creador = this.usuarioService.buscarUsuario(usuario.getId());
+        if (id == null || id < 0){
+            nuevoEvento = new EventoDTO();                        // Nuevo evento
+
+            nuevoEvento = this.eventoService.buscarEventoId(id);  // Editar evento existente
+        } else{
+        }
+        nuevoEvento.setTitulo(titulo);
+        nuevoEvento.setFechaEvento(fechaEvento);
+
+        nuevoEvento.setDescripcion(descripcion);
+        nuevoEvento.setCoste(coste);
+        nuevoEvento.setAforo(aforo);
+        nuevoEvento.setMaximoEntradasUsuario(entradas);
+        nuevoEvento.setFechaFinReservas(fechaEntradas);
+        nuevoEvento.setUsuarioByIdCreador(usuario.getId());
+
+        if (id == null || id < 0){
+            this.eventoService.crearEvento(nuevoEvento,creador);// Nuevo evento
+        } else{
+            this.eventoService.editarEvento(nuevoEvento,creador);  // Editar evento existente
+        }
+        return "redirect:/listarEventosCreados";
+
+    }
 }

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <%
-        List<Usuario> listaUsuarios = (List) request.getAttribute("listaUsuarios");
+        List<UsuarioDTO> listaUsuarios = (List) request.getAttribute("listaUsuarios");
     %>
 </head>
 <body>
@@ -27,12 +27,17 @@
 <!-- Sección con la tabla de los usuarios -->
 <section class="container rounded shadow-sm w3-padding">
     <header class="container">
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-primary bi bi-hammer" href="/evento/crearEvento" role="button"> Crear Usuario</a>
+        </div>
+
         <h1 class="display-1">Lista de usuarios</h1>
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
             <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
         </form>
-        <a href="ServletAdminCrudUsuarioCrearEditar">Nuevo usuario</a>
+
     </header>
     <article>
         <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de usuarios">
@@ -42,6 +47,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Rol</th>
+                <th scope="col">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -53,9 +59,20 @@
             <tr>
 
                 <th scope="row"><%= (i + 1)%></th>
-                <td><a href = "ServletAdminCrudUsuario?id=<%=listaUsuarios.get(i).getId()%>"><%= listaUsuarios.get(i).getNombre()%></a></td>
+                <th><%= listaUsuarios.get(i).getNombre()%></th>
                 <td><%= listaUsuarios.get(i).getCorreo()%></td>
-                <td><%= listaUsuarios.get(i).getRol()%></td>
+                <td><%= listaUsuarios.get(i).getRolDescripccion()%></td>
+                <td>
+                    <a class="btn btn-outline-info" href="#/<%= listaUsuarios.get(i).getId()%>" role="button">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-outline-success" href="#/<%= listaUsuarios.get(i).getId()%>" role="button">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn btn-outline-danger" href="#/<%= listaUsuarios.get(i).getId()%>" role="button">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
             </tr>
 
             <%

@@ -68,6 +68,16 @@ public class EventoService {
         return this.convertirAListaDTO(listaEventosCreador);
     }
 
+    public Evento buscarEvento(Integer id){
+        Evento evento = this.eventoRepository.findById(id).orElse(null);
+
+        if(evento == null){
+            return null;
+        } else{
+            return evento;
+        }
+    }
+
     public EventoDTO buscarEventoId(Integer id){
         Evento evento = this.eventoRepository.findById(id).orElse(null);
 
@@ -83,7 +93,22 @@ public class EventoService {
 
         this.eventoRepository.delete(evento);
     }
+    public void crearEvento(EventoDTO nuevoEvento, Usuario creador) {
+        Evento evento = new Evento();
 
+        evento.setTitulo(nuevoEvento.getTitulo());
+        evento.setAforo(nuevoEvento.getAforo());
+        evento.setDescripcion(nuevoEvento.getDescripcion());
+        evento.setCoste(nuevoEvento.getCoste());
+        evento.setFechaEvento(nuevoEvento.getFechaEvento());
+        evento.setFechaFinReservas(nuevoEvento.getFechaFinReservas());
+        evento.setUsuarioByIdCreador(creador);
+        evento.setMaximoEntradasUsuario(nuevoEvento.getMaximoEntradasUsuario());
+
+    }
+
+    public void editarEvento(EventoDTO nuevoEvento, Usuario creador) {
+    }
     public Map<EventoDTO, Integer> listarEventosAsistidosFiltro(String filtroEvento, Integer id) {
         List<Entrada> listaEntradas = this.entradaRepository.findByIdUsuario(id);
         Map<Evento, Integer> eventosMap = new HashMap<>();
@@ -97,38 +122,38 @@ public class EventoService {
                     evento = this.eventoRepository.findById(id).orElse(null);
                 } else{
                     evento = this.eventoRepository.findByIdAndSimilarName(e.getEventoByIdEvento().getId(), filtroEvento);
-                }
                 if (evento != null) {
+                }
                     if (!eventosMap.containsKey(evento)) {
-                        eventosMap.put(evento, 1);
                     } else {
                         eventosMap.put(evento, eventosMap.get(evento) + 1);
+                        eventosMap.put(evento, 1);
                     }
-                }
             }
+                }
         }
-        for(Evento e : eventosMap.keySet()){
             resultado.put(e.getDTO(), eventosMap.get(e));
+        for(Evento e : eventosMap.keySet()){
         }
-        return resultado;
     }
+        return resultado;
 
         public Map<EventoDTO, Integer> listarEventosAsistidos(Integer id) {
             List<Entrada> listaEntradas = this.entradaRepository.findByIdUsuario(id);
             Map<Evento, Integer> eventosMap = new HashMap<>();
             Map<EventoDTO, Integer> resultado = new HashMap<>();
             Evento evento;
-
             if (listaEntradas != null) {
+
                 for (Entrada e : listaEntradas) {
                     evento = this.eventoRepository.findById(e.getEventoByIdEvento().getId()).orElse(null);
                     if (evento != null) {
                         if (!eventosMap.containsKey(evento)) {
-                            eventosMap.put(evento, 1);
                         } else {
+                            eventosMap.put(evento, 1);
                             eventosMap.put(evento, eventosMap.get(evento) + 1);
-                        }
                     }
+                        }
                 }
             }
             for(Evento e : eventosMap.keySet()){
