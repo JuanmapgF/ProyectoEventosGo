@@ -138,15 +138,15 @@ public class EventoController {
         Map<EventoDTO, Integer> eventos;
 
         if(filtro == null || filtro.isEmpty()){
-        } else{
             eventos = this.eventoService.listarEventosAsistidos(user.getId());
+        } else{
             eventos = this.eventoService.listarEventosAsistidosFiltro(filtro, user.getId());
-
         }
         model.addAttribute("eventos", eventos);
         return "usuarioEventos";
 
     }
+    /*
     @GetMapping("/crearEvento")
     public String doCrearEvento(Model model, HttpSession sesion){
         return "crearEvento";
@@ -188,4 +188,6 @@ public class EventoController {
         return "redirect:/listarEventosCreados";
 
     }
+    */
+
 }
