@@ -165,7 +165,7 @@ public class EventoController {
             this.eventoService.editarEvento(nuevoEvento,creador);  // Editar evento existente
         }
 
-        return "";
+        return "redirect:/listarEventosCreados";
     }
 
 }

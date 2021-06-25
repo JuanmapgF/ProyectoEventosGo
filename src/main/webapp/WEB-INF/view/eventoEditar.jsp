@@ -46,6 +46,14 @@
 
     String etiquetas = request.getParameter("etiquetas");
 
+    String strTo = "";
+
+    if(creador.getRol() == 0){  // si somos admin
+        strTo = "/EventosCargarAdmin";
+    }else{
+        strTo = "/evento/listarEventosCreados";
+    }
+
 %>
 
 <body>
@@ -142,7 +150,7 @@
                 </div>
                 <div class="row"><br/></div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <a class="btn btn-primary" href="/evento/listarEventosCreados" role="button">Volver</a>
+                <a class="btn btn-primary" href="<%=strTo%>" role="button">Volver</a>
             </div>
         </div>
         </div>

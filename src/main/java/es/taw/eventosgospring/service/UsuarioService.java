@@ -1,10 +1,15 @@
 package es.taw.eventosgospring.service;
 
 import es.taw.eventosgospring.dao.UsuarioRepository;
+import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.entity.Evento;
 import es.taw.eventosgospring.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -15,6 +20,17 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    protected List<UsuarioDTO> convertirAListaDTO(List<Usuario> usuarios){
+        if(usuarios!=null){
+            List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+            for(Usuario u : usuarios){
+                usuariosDTO.add(u.getDTO());
+            }
+            return usuariosDTO;
+        } else{
+            return null;
+        }
+    }
     public UsuarioDTO comprobarCredenciales(String correo, String pass){
         Usuario user = this.usuarioRepository.findByCorreoPass(correo, pass);
         if(user!=null){
@@ -62,4 +78,8 @@ public class UsuarioService {
     }
 
 
+    public List<UsuarioDTO> findAll() {
+        List<Usuario> listaUsuarios = this.usuarioRepository.findAll();
+        return this.convertirAListaDTO(listaUsuarios);
+    }
 }
