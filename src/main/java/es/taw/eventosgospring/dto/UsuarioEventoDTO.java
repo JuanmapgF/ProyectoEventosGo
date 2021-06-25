@@ -11,7 +11,16 @@ public class UsuarioEventoDTO {
     private Date fechaNacimiento;
     private Integer sexo;
     private List<EntradaDTO> entradasById;
-    private UsuarioDTO usuarioById;
+    private Integer usuarioById;
+    private String nombre;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Integer getId() {
         return id;
@@ -69,11 +78,11 @@ public class UsuarioEventoDTO {
         this.entradasById = entradasById;
     }
 
-    public UsuarioDTO getUsuarioById() {
+    public Integer getUsuarioById() {
         return usuarioById;
     }
 
-    public void setUsuarioById(UsuarioDTO usuarioById) {
+    public void setUsuarioById(Integer usuarioById) {
         this.usuarioById = usuarioById;
     }
 }

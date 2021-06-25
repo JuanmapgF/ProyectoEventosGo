@@ -109,7 +109,7 @@ public class Mensaje {
         dto.setTexto(this.texto);
         dto.setVisto(this.visto);
         dto.setConversacionByIdConversacion(this.conversacionByIdConversacion.getDTO());
-        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getDTO());
+        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getId());
 
         return dto;
     }

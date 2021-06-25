@@ -9,7 +9,7 @@ public class MensajeDTO {
     private String texto;
     private Integer visto;
     private ConversacionDTO conversacionByIdConversacion;
-    private UsuarioDTO usuarioByIdUsuario;
+    private Integer usuarioByIdUsuario;
 
     public Integer getId() {
         return id;
@@ -59,11 +59,11 @@ public class MensajeDTO {
         this.conversacionByIdConversacion = conversacionByIdConversacion;
     }
 
-    public UsuarioDTO getUsuarioByIdUsuario() {
+    public Integer getUsuarioByIdUsuario() {
         return usuarioByIdUsuario;
     }
 
-    public void setUsuarioByIdUsuario(UsuarioDTO usuarioByIdUsuario) {
+    public void setUsuarioByIdUsuario(Integer usuarioByIdUsuario) {
         this.usuarioByIdUsuario = usuarioByIdUsuario;
     }
 }

@@ -7,10 +7,10 @@
 <%@page import="java.time.Period"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.eventosgospring.entity.UsuarioEvento" %>
-<%@ page import="es.taw.eventosgospring.entity.Estudio" %>
+<%@ page import="es.taw.eventosgospring.dto.UsuarioEventoDTO" %>
+<%@ page import="es.taw.eventosgospring.dto.EstudioDTO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,8 +20,8 @@
     </head>
     <body>
         <%
-            List<UsuarioEvento> lista = (List) request.getAttribute("lista");
-            Estudio e = (Estudio) request.getAttribute("estudio");
+            List<UsuarioEventoDTO> lista = (List) request.getAttribute("lista");
+            EstudioDTO e = (EstudioDTO) request.getAttribute("estudio");
         %>
 
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -63,7 +63,7 @@
                     }
                 %>
                 
-                <a href="ServletEstudioCargar" class="btn btn-secondary btn-sm" role="button">Cancelar</a>
+                <a href="/estudios/" class="btn btn-secondary btn-sm" role="button">Cancelar</a>
             </header>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
@@ -78,11 +78,11 @@
                     <tbody>
                         <%
                             int i = 1;
-                            for (UsuarioEvento u : lista) {
+                            for (UsuarioEventoDTO u : lista) {
                         %>
                         <tr>
                             <th scope="row"><%= i %></th>
-                            <td><%= u.getUsuarioById().getNombre()%></td>
+                            <td><%= u.getNombre() %></td>
                             <%
                                 SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
                                 SimpleDateFormat sdf1 = new SimpleDateFormat("MM");

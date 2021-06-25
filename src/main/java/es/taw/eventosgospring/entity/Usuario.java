@@ -173,7 +173,6 @@ public class Usuario {
             dto.setUsuarioEventoById(this.usuarioEventoById.getDTO());
         }
 
-
         return dto;
     }
 }

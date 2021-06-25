@@ -83,8 +83,8 @@ public class Conversacion {
         ConversacionDTO dto = new ConversacionDTO();
         dto.setId(this.id);
         dto.setAsunto(this.asunto);
-        dto.setUsuarioByIdTeleoperador(this.usuarioByIdTeleoperador.getDTO());
-        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getDTO());
+        dto.setUsuarioByIdTeleoperador(this.usuarioByIdTeleoperador.getId());
+        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getId());
         List<MensajeDTO> mensajeList = new ArrayList<>();
         for (Mensaje m:this.mensajesById) {
             mensajeList.add(m.getDTO());

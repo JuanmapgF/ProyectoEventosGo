@@ -54,7 +54,7 @@
                     <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
                 </div>
                 <div class="mt-auto align-middle">
-                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="crearEstudio.jsp" role="button">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="/estudios/crear" role="button">
                         <i class="bi bi-plus"></i>
                     </a>
                 </div>
@@ -72,15 +72,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%                            int i;
+                        <%
+                            int i;
                             for (i = (pagina - 1) * 10; i < estudios.size() && i < (pagina * 10); i++) {
                         %>
                         <tr>
-                            <th scope="row"><%= (i + 1)%></th>
-                            <td><%= estudios.get(i).getTitulo()%></td>
-                            <td><%= resultados.get(i)%></td>
+                            <th scope="row"><%= (i + 1) %></th>
+                            <td><%= estudios.get(i).getTitulo() %></td>
+                            <td><%= resultados.get(i)%> </td>
                             <td>
-                                <a class="btn btn-outline-info" href="ServletEstudioVer?estudio=<%= estudios.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-info" href="/estudios/info/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <a class="btn btn-outline-success" href="ServletEstudioEditar?estudio=<%= estudios.get(i).getId()%>" role="button">

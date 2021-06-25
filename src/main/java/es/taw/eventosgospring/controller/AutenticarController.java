@@ -36,17 +36,19 @@ public class AutenticarController {
             strError="Error de autentificación: alguno de los campos está vacío.";
             model.addAttribute("error", strError);
             strTo = "inicioSesion";
-        } else{
+        } else {
             UsuarioDTO user = this.usuarioService.comprobarCredenciales(correo, pass);
-
             if(user == null){
                 strError = "Error de autentificación: credenciales incorrectas.";
                 model.addAttribute("error", strError);
                 strTo = "inicioSesion";
-            } else if(user.getRol() == 0) {
+            } else if(user.getRol() == 0) { // Creador
                 sesion.setAttribute("usuario", user);
                 strTo = "adminPrincipal";
-            }else{
+            } else if(user.getRol() == 3) { // Analista
+                sesion.setAttribute("usuario", user);
+                strTo = "redirect:/estudios/";
+            }else {
                 sesion.setAttribute("usuario", user);
                 strTo="redirect:/listarEventos";
             }

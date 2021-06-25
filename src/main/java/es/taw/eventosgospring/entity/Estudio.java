@@ -69,7 +69,7 @@ public class Estudio {
     public EstudioDTO getDTO() {
         EstudioDTO dto = new EstudioDTO();
         dto.setId(this.id);
-        dto.setUsuarioByIdAnalista(this.usuarioByIdAnalista.getDTO());
+        dto.setUsuarioIdAnalista(this.usuarioByIdAnalista.getId());
         dto.setTitulo(this.titulo);
         dto.setResultado(this.resultado);
 

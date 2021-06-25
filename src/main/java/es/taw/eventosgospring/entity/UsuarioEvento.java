@@ -120,6 +120,8 @@ public class UsuarioEvento {
         dto.setDomicilio(domicilio);
         dto.setFechaNacimiento(fechaNacimiento);
         dto.setSexo(sexo);
+        dto.setUsuarioById(usuarioById.getId());
+        dto.setNombre(usuarioById.getNombre());
 
         return dto;
     }

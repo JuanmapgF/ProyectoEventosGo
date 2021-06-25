@@ -8,11 +8,11 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.time.Period"%>
 <%@page import="java.time.LocalDate"%>
-<%@page import="eventosgowebapp.entity.Estudio"%>
-<%@page import="eventosgowebapp.entity.UsuarioEvento"%>
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.eventosgospring.entity.UsuarioEvento" %>
 <%@ page import="es.taw.eventosgospring.entity.Estudio" %>
+<%@ page import="es.taw.eventosgospring.dto.UsuarioEventoDTO" %>
+<%@ page import="es.taw.eventosgospring.dto.EstudioDTO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,8 +22,8 @@
     </head>
     <body>
         <%
-            List<UsuarioEvento> lista = (List) request.getAttribute("resultado");
-            Estudio e = (Estudio) request.getAttribute("estudio");
+            List<UsuarioEventoDTO> lista = (List) request.getAttribute("resultado");
+            EstudioDTO e = (EstudioDTO) request.getAttribute("estudio");
         %>
 
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -33,7 +33,7 @@
             <header class="container">
                 <h1 class="display-1"><%= e.getTitulo()%></h1>
                 <p class="fs-4">Total de usuarios: <%= lista.size()%></p>
-                <a href="ServletEstudioCargar" class="btn btn-primary" role="button">Volver</a>
+                <a href="/estudios/" class="btn btn-primary" role="button">Volver</a>
             </header>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
@@ -48,11 +48,11 @@
                     <tbody>
                         <%
                             int i = 1;
-                            for (UsuarioEvento u : lista) {
+                            for (UsuarioEventoDTO u : lista) {
                         %>
                         <tr>
                             <th scope="row"><%= i %></th>
-                            <td><%= u.getUsuarioById().getNombre()%></td>
+                            <td><%= u.getNombre() %></td>
                             <%
                                 SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
                                 SimpleDateFormat sdf1 = new SimpleDateFormat("MM");

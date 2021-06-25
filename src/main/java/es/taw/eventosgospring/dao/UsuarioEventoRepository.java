@@ -12,4 +12,7 @@ public interface UsuarioEventoRepository extends JpaRepository<UsuarioEvento, In
     @Query("SELECT u FROM UsuarioEvento u WHERE u.sexo = :masc OR u.sexo = :fem OR u.sexo = :otro")
     public List<UsuarioEvento> filtroSexo(@Param("masc") int masc, @Param("fem") int fem, @Param("otro") int otro);
 
+    @Query("SELECT u FROM UsuarioEvento u WHERE u.ciudad = :city")
+    public List<UsuarioEvento> filtroCiudad(@Param("city") String city);
+
 }
