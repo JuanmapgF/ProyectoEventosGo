@@ -73,7 +73,7 @@
     <div class="card-body">
         <h5 class="card-title"><%= evento.getTitulo() %></h5>
         <p class="card-text"><%= evento.getDescripcion()%></p>
-        <a class="btn btn-primary bi bi-hammer" href="evento/verEvento/<%= evento.getId() %>" role="button"> Ir al evento</a>
+        <a class="btn btn-primary bi bi-hammer" href="/evento/verEvento/<%= evento.getId() %>" role="button"> Ir al evento</a>
     </div>
 </div>
 <%

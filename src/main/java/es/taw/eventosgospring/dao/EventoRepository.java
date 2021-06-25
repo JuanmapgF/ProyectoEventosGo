@@ -18,4 +18,8 @@ public interface EventoRepository extends JpaRepository<Evento, Integer> {
 
     @Query("SELECT e from Evento e WHERE e.usuarioByIdCreador.id = :id AND e.titulo LIKE %:filtro%")
     public List<Evento> findByIdCreadorFiltro(@Param("id") Integer id, @Param("filtro") String filtro);
+
+    @Query("SELECT e FROM Evento e WHERE e.id = :id AND e.titulo LIKE %:filtro%")
+    public Evento findByIdAndSimilarName(@Param("id") Integer id, @Param("filtro") String filtro);
 }
+

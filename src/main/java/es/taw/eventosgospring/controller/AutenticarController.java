@@ -2,7 +2,9 @@ package es.taw.eventosgospring.controller;
 
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.dto.UsuarioEventoDTO;
 import es.taw.eventosgospring.service.EventoService;
+import es.taw.eventosgospring.service.UsuarioEventoService;
 import es.taw.eventosgospring.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,13 @@ import java.util.List;
 @Controller
 public class AutenticarController {
     private UsuarioService usuarioService;
+    private UsuarioEventoService usuarioEventoService;
     private EventoService eventoService;
+
+    @Autowired
+    public void setUsuarioEventoService(UsuarioEventoService usuarioEventoService) {
+        this.usuarioEventoService = usuarioEventoService;
+    }
 
     @Autowired
     public void setEventoService(EventoService eventoService) {
@@ -67,7 +75,9 @@ public class AutenticarController {
 
                     case 3: break;
 
-                    case 4: strTo="redirect:/evento/listarEventosDisponibles";
+                    case 4: UsuarioEventoDTO userEvento = this.usuarioEventoService.buscarUsuarioEventoId(user.getId());
+                            sesion.setAttribute("usuarioEvento", userEvento);
+                            strTo="redirect:/evento/listarEventosDisponibles";
                             break;
 
                     default: break;
