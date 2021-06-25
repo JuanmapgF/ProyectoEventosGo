@@ -52,9 +52,12 @@ public class AdminController {
         return strTo;
     }
 
+    /*
     @GetMapping("/CrearUsuarioAdmin")
     public String CrearUsuario(Model model, HttpSession session){
         return
     }
+     */
+
 }
 
