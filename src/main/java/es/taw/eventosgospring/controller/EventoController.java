@@ -1,7 +1,9 @@
 package es.taw.eventosgospring.controller;
 
+import es.taw.eventosgospring.dto.EntradaDTO;
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.dto.UsuarioEventoDTO;
 import es.taw.eventosgospring.entity.Evento;
 import es.taw.eventosgospring.entity.Usuario;
 import es.taw.eventosgospring.service.EventoService;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("evento")
@@ -102,5 +105,23 @@ public class EventoController {
 
        return this.doListarEventosCreador(filtro,model, sesion);
     }
+
+    @GetMapping("/listarEventosAsistidos")
+    public String doListarEventosAsistidos(@RequestParam(value = "filtroEvento", required = false) String filtro, Model model, HttpSession sesion){
+
+        UsuarioEventoDTO user = (UsuarioEventoDTO) sesion.getAttribute("usuarioEvento");
+        Map<EventoDTO, Integer> eventos;
+
+        if(filtro == null || filtro.isEmpty()){
+            eventos = this.eventoService.listarEventosAsistidos(user.getId());
+        } else{
+            eventos = this.eventoService.listarEventosAsistidosFiltro(filtro, user.getId());
+        }
+
+        model.addAttribute("eventos", eventos);
+
+        return "usuarioEventos";
+    }
+
 
 }
