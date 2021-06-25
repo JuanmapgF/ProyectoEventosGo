@@ -85,4 +85,21 @@ public class EventoService {
 
         this.eventoRepository.delete(evento);
     }
+
+    public void crearEvento(EventoDTO nuevoEvento, Usuario creador) {
+        Evento evento = new Evento();
+
+        evento.setTitulo(nuevoEvento.getTitulo());
+        evento.setDescripcion(nuevoEvento.getDescripcion());
+        evento.setAforo(nuevoEvento.getAforo());
+        evento.setCoste(nuevoEvento.getCoste());
+        evento.setFechaEvento(nuevoEvento.getFechaEvento());
+        evento.setFechaFinReservas(nuevoEvento.getFechaFinReservas());
+        evento.setMaximoEntradasUsuario(nuevoEvento.getMaximoEntradasUsuario());
+        evento.setUsuarioByIdCreador(creador);
+
+    }
+
+    public void editarEvento(EventoDTO nuevoEvento, Usuario creador) {
+    }
 }

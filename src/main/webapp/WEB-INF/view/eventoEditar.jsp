@@ -61,7 +61,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <input type="text" name="idCreador" value="<%= creador.getId()%>" hidden/>
+                    <input type="text" name="id" value="<%= evento.getId()%>" hidden/>
                 </div>
             </div>
             <div class="row">

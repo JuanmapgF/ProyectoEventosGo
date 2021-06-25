@@ -33,6 +33,15 @@ public class UsuarioService {
         }
     }
 
+    public Usuario buscarUsuario(Integer id) {
+        Usuario user = this.usuarioRepository.findById(id).orElse(null);
+        if(user != null){
+            return user;
+        }else{
+            return null;
+        }
+    }
+
     public Integer guardarUsuario(UsuarioDTO dto){
 
         Usuario usuario;
@@ -51,4 +60,6 @@ public class UsuarioService {
 
         return usuario.getId();
     }
+
+
 }
