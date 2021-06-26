@@ -108,7 +108,7 @@ public class Mensaje {
         dto.setHora(this.hora);
         dto.setTexto(this.texto);
         dto.setVisto(this.visto);
-        dto.setConversacionByIdConversacion(this.conversacionByIdConversacion.getDTO());
+        dto.setConversacionByIdConversacion(this.conversacionByIdConversacion.getId());
         dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getId());
 
         return dto;

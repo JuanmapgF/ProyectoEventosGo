@@ -205,11 +205,11 @@ public class EstudioService {
         Estudio estudio = new Estudio();
         estudio.setTitulo(estudioDTO.getTitulo());
         estudio.setResultado(estudioDTO.getResultado());
-        System.out.println(estudio.getResultado());
         estudio.setUsuarioByIdAnalista(analista);
 
-        if (estudioDTO.getId() != null) {
+        if (estudioDTO.getId() != null && estudioDTO.getId() != -1) {
             estudio.setId(estudioDTO.getId());
+            this.deleteEstudioById(estudio.getId(), estudio.getUsuarioByIdAnalista().getId());
         }
 
         this.estudioRepository.save(estudio);

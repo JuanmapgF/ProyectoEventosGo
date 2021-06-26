@@ -8,7 +8,7 @@ public class MensajeDTO {
     private Date hora;
     private String texto;
     private Integer visto;
-    private ConversacionDTO conversacionByIdConversacion;
+    private Integer conversacionByIdConversacion;
     private Integer usuarioByIdUsuario;
 
     public Integer getId() {
@@ -51,11 +51,11 @@ public class MensajeDTO {
         this.visto = visto;
     }
 
-    public ConversacionDTO getConversacionByIdConversacion() {
+    public Integer getConversacionByIdConversacion() {
         return conversacionByIdConversacion;
     }
 
-    public void setConversacionByIdConversacion(ConversacionDTO conversacionByIdConversacion) {
+    public void setConversacionByIdConversacion(Integer conversacionByIdConversacion) {
         this.conversacionByIdConversacion = conversacionByIdConversacion;
     }
 
