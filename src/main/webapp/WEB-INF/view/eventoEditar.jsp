@@ -60,7 +60,7 @@
 
 <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
-<section class="container rounded shadow-sm w3-padding">
+<section class="container rounded shadow w3-padding">
     <header class="container">
         <h1>Datos del evento</h1>
     </header>

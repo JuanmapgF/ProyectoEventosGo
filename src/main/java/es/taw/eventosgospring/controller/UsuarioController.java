@@ -54,6 +54,23 @@ public class UsuarioController {
         return "registro";
     }
 
+    @GetMapping("/borrarUsuario/{id}")
+    public String doBorrarUsuario(@PathVariable("id") Integer id, Model model,HttpSession session){
+        this.usuarioService.borrarUsuario(id);
+
+        return "redirect:/UsuariosCargarAdmin";
+    }
+
+    @GetMapping("/editarUsuario/{id}")
+    public String doEditarUsuario(@PathVariable("id") Integer id, Model model){
+        String strTo = "editarUsuario";
+
+        UsuarioDTO usuarioDTO = (UsuarioDTO) this.usuarioService.buscarUsuarioId(id);
+        model.addAttribute("usuario",usuarioDTO);
+
+        return strTo;
+    }
+
     @PostMapping("/guardar")
     public String doGuardarUsuario(@RequestParam("nombre") String nombre,
                                    @RequestParam("apellidos")String apellidos,
@@ -155,14 +172,29 @@ public class UsuarioController {
         return strTo;
     }
 
-    @GetMapping("/verUsuario/{id}")
-    public String doVerUsuario(@PathVariable("id")Integer id, Model model, HttpSession session){
-        String strTo = "verUsuario";
 
-        UsuarioDTO usuario = this.usuarioService.buscarUsuarioId(id);
-        model.addAttribute("usuario", usuario);
+    @GetMapping ("/guardarUsuarioAdmin")
+    public String doGuardarUsuarioAdmin(@RequestParam(value="id", required = false) Integer id ,
+                                        @RequestParam("nombre")String name,
+                                        @RequestParam("email")String email,
+                                        @RequestParam("password")String pass,
+                                        @RequestParam("rol")Integer rol){
 
-        return strTo;
+        UsuarioDTO usuarioDTO;
+        if(id != null){
+            usuarioDTO = (UsuarioDTO) this.usuarioService.buscarUsuarioId(id);
+        }else{
+            usuarioDTO = new UsuarioDTO();
+        }
+
+        usuarioDTO.setNombre(name);
+        usuarioDTO.setCorreo(email);
+        usuarioDTO.setContrasena(pass);
+        usuarioDTO.setRol(rol);
+
+        this.usuarioService.guardarUsuarioAdmin(usuarioDTO);
+
+        return "redirect:/UsuariosCargarAdmin";
     }
 
 }

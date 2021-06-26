@@ -34,18 +34,19 @@
 
 <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
-<section class="container rounded shadow-sm w3-padding">
+<section class="container rounded shadow w3-padding">
     <header class="container">
         <h1>Datos del evento</h1>
     </header>
 
-    <form method='POST' action="ServletEventoGuardar">
+    <form method='POST' action="/evento/guardarEvento">
         <div class="container">
             <div class="row">
                 <div class="col-8">
                     <input type="text" name="idCreador" value="<%= creador.getId() %>" hidden/>
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     T&iacute;tulo:
@@ -54,6 +55,7 @@
                     <input type="text" name="titulo" />
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Descripci&oacute;n:
@@ -62,6 +64,7 @@
                     <textarea name="descripcion" rows="4" cols="20"></textarea>
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Fecha del evento:
@@ -70,6 +73,7 @@
                     <input type="date" name="fechaEvento" />
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Fecha de máxima para comprar entradas:
@@ -78,6 +82,7 @@
                     <input type="date" name="fechaEntradas" />
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Coste de la entrada:
@@ -86,6 +91,7 @@
                     <input id="coste" type="number" name="coste" step="1.00" />  &euro;
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Aforo del evento:
@@ -94,6 +100,7 @@
                     <input type="number" name="aforo" />
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Nº m&aacute;ximo de entradas por usuario:
@@ -102,6 +109,7 @@
                     <input type="number" name="entradas" />
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
                     Etiquetas:
@@ -110,10 +118,14 @@
                     <textarea name="etiquetas"  ></textarea>
                 </div>
             </div>
+            <div class="row"><br/></div>
             <div class="row">
                 <div class="col">
-                    <input type="submit" value="Crear evento">
+                    <input type="submit" class="btn btn-success btn-lg" value="Crear evento">
                 </div>
+                <div class="row"><br/></div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a class="btn btn-danger" href="/evento/listarEventosCreados" role="button">Volver</a>
             </div>
         </div>
 

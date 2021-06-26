@@ -146,12 +146,13 @@ public class EventoController {
         return "usuarioEventos";
 
     }
-    /*
+
     @GetMapping("/crearEvento")
     public String doCrearEvento(Model model, HttpSession sesion){
         return "crearEvento";
     }
 
+    /*
     @GetMapping("/guardarEvento")
     public String doGuardarEvento(@RequestParam("id")Integer id,@RequestParam("titulo")String titulo,
         @RequestParam("fechaEntradas")Date fechaEntradas, @RequestParam("coste")Double coste,
@@ -164,11 +165,11 @@ public class EventoController {
         EventoDTO nuevoEvento;
         String[] etiquetas = strEtiquetas.split("\\W");
         Usuario creador = this.usuarioService.buscarUsuario(usuario.getId());
+
         if (id == null || id < 0){
             nuevoEvento = new EventoDTO();                        // Nuevo evento
-
-            nuevoEvento = this.eventoService.buscarEventoId(id);  // Editar evento existente
         } else{
+            nuevoEvento = this.eventoService.buscarEventoId(id);  // Editar evento existente
         }
         nuevoEvento.setTitulo(titulo);
         nuevoEvento.setFechaEvento(fechaEvento);

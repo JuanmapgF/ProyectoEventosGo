@@ -37,7 +37,7 @@
 
 
         <!-- Sección con la tabla de los eventos -->
-        <section class="container rounded shadow-sm w3-padding">
+        <section class="container rounded shadow w3-padding">
             <header class="container">
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
