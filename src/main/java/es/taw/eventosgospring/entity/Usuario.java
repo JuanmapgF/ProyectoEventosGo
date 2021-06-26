@@ -25,6 +25,7 @@ public class Usuario {
     private UsuarioEvento usuarioEventoById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
