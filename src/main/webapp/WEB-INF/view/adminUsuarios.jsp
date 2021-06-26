@@ -33,8 +33,8 @@
         </div>
 
         <h1 class="display-1">Lista de usuarios</h1>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+        <form class="d-flex" action="/UsuariosCargarAdmin">
+            <input class="form-control me-2" type="search" name="filtroUsuario" placeholder="Buscar" aria-label="Search">
             <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
         </form>
 

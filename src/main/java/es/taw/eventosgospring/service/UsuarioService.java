@@ -103,4 +103,10 @@ public class UsuarioService {
 
         this.usuarioRepository.save(usuario);
     }
+
+    public List<UsuarioDTO> listarUsuariosFiltro(String filtro) {
+        List<Usuario> listaUsuarios = this.usuarioRepository.findByFiltro(filtro);
+
+        return this.convertirAListaDTO(listaUsuarios);
+    }
 }
