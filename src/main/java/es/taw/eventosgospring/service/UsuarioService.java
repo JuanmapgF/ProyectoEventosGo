@@ -82,4 +82,25 @@ public class UsuarioService {
         List<Usuario> listaUsuarios = this.usuarioRepository.findAll();
         return this.convertirAListaDTO(listaUsuarios);
     }
+
+    public void borrarUsuario(Integer usuarioid){
+        Usuario usuario = this.usuarioRepository.findById(usuarioid).orElse(null);
+        this.usuarioRepository.delete(usuario);
+    }
+
+    public void guardarUsuarioAdmin(UsuarioDTO dto){
+        Usuario usuario;
+        if(dto.getId() == null){
+            usuario = new Usuario();
+        } else{
+            usuario = this.usuarioRepository.findById(dto.getId()).orElse(new Usuario());
+        }
+
+        usuario.setRol(dto.getRol());
+        usuario.setCorreo(dto.getCorreo());
+        usuario.setContrasena(dto.getContrasena());
+        usuario.setNombre(dto.getNombre());
+
+        this.usuarioRepository.save(usuario);
+    }
 }
