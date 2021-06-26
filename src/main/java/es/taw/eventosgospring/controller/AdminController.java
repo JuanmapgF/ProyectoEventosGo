@@ -54,7 +54,7 @@ public class AdminController {
 
     @GetMapping("/CrearUsuarioAdmin")
     public String CrearUsuario(Model model, HttpSession session){
-        return
+        return "";
     }
 }
 
