@@ -1,7 +1,10 @@
 package es.taw.eventosgospring.dto;
 
+import es.taw.eventosgospring.entity.Evento;
+
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class EventoDTO {
     private Integer id;
@@ -112,6 +115,5 @@ public class EventoDTO {
     public void setEventoEtiquetasById(List<Integer> eventoEtiquetasById) {
         this.eventoEtiquetasById = eventoEtiquetasById;
     }
-
 
 }

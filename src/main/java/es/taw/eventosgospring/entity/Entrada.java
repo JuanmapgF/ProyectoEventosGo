@@ -13,6 +13,7 @@ public class Entrada {
     private EntradaAforo entradaAforoById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -68,6 +69,9 @@ public class Entrada {
     public EntradaDTO getDTO(){
         EntradaDTO dto = new EntradaDTO();
         dto.setId(this.id);
+        dto.setEventoByIdEvento(this.eventoByIdEvento.getId());
+        dto.setUsuarioEventoByIdUsuario(this.usuarioEventoByIdUsuario.getId());
+        // dto.setEntradaAforoById(this.entradaAforoById.getId());
 
         return dto;
     }

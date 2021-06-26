@@ -29,7 +29,7 @@
         Integer numeroEntradas = (Integer)request.getAttribute("numeroEntradas");
         UsuarioDTO usuarioDTO = (UsuarioDTO) request.getSession().getAttribute("usuario");
         
-        String volver = "ServletCreadorPrincipal";
+        String volver = "/evento/listarEventosDisponibles";
         
         if(usuarioDTO.getRol() == 0){
             volver = "/EventosCargarAdmin";
@@ -121,7 +121,7 @@
                      if((usuario.getRol() == 4)  && (evento.getAforo() > 0) && numeroEntradas != evento.getAforo()){
                   %>
                 <div>
-                    <a class="btn btn-link" href="ServletParaComprarEntradas?id=<%= evento.getId() %>" role="button"> Comprar entradas</a>
+                    <a class="btn btn-link" href="/usuario/reservarEntrada/<%= evento.getId() %>" role="button"> Comprar entradas</a>
                 </div> 
                 <%
                       }else if(usuario.getRol() == 4){

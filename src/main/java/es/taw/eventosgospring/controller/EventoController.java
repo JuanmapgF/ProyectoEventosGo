@@ -1,9 +1,13 @@
 package es.taw.eventosgospring.controller;
 
+import es.taw.eventosgospring.dto.EntradaDTO;
 import es.taw.eventosgospring.dto.EtiquetaDTO;
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.dto.UsuarioEventoDTO;
+import es.taw.eventosgospring.entity.Evento;
+import es.taw.eventosgospring.entity.Usuario;
 import es.taw.eventosgospring.entity.*;
 import es.taw.eventosgospring.service.EventoEtiquetaService;
 import es.taw.eventosgospring.service.EventoService;
@@ -18,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("evento")
@@ -126,6 +131,22 @@ public class EventoController {
        return this.doListarEventosCreador(filtro,model, sesion);
     }
 
+    @GetMapping("/listarEventosAsistidos")
+    public String doListarEventosAsistidos(@RequestParam(value = "filtroEvento", required = false) String filtro, Model model, HttpSession sesion){
+
+        UsuarioEventoDTO user = (UsuarioEventoDTO) sesion.getAttribute("usuarioEvento");
+        Map<EventoDTO, Integer> eventos;
+
+        if(filtro == null || filtro.isEmpty()){
+            eventos = this.eventoService.listarEventosAsistidos(user.getId());
+        } else{
+            eventos = this.eventoService.listarEventosAsistidosFiltro(filtro, user.getId());
+        }
+        model.addAttribute("eventos", eventos);
+        return "usuarioEventos";
+
+    }
+    /*
     @GetMapping("/crearEvento")
     public String doCrearEvento(Model model, HttpSession sesion){
         return "crearEvento";
@@ -133,8 +154,8 @@ public class EventoController {
 
     @GetMapping("/guardarEvento")
     public String doGuardarEvento(@RequestParam("id")Integer id,@RequestParam("titulo")String titulo,
-        @RequestParam("descripcion")String descripcion,@RequestParam("fechaEvento")Date fechaEvento,
         @RequestParam("fechaEntradas")Date fechaEntradas, @RequestParam("coste")Double coste,
+        @RequestParam("descripcion")String descripcion,@RequestParam("fechaEvento")Date fechaEvento,
         @RequestParam("aforo")Integer aforo,@RequestParam("entradas")Integer entradas,
         @RequestParam("etiquetas")String strEtiquetas,Model model, HttpSession sesion){
 
@@ -143,19 +164,19 @@ public class EventoController {
         EventoDTO nuevoEvento;
         String[] etiquetas = strEtiquetas.split("\\W");
         Usuario creador = this.usuarioService.buscarUsuario(usuario.getId());
-
         if (id == null || id < 0){
             nuevoEvento = new EventoDTO();                        // Nuevo evento
-        } else{
-            nuevoEvento = this.eventoService.buscarEventoId(id);  // Editar evento existente
-        }
 
+            nuevoEvento = this.eventoService.buscarEventoId(id);  // Editar evento existente
+        } else{
+        }
         nuevoEvento.setTitulo(titulo);
+        nuevoEvento.setFechaEvento(fechaEvento);
+
         nuevoEvento.setDescripcion(descripcion);
         nuevoEvento.setCoste(coste);
         nuevoEvento.setAforo(aforo);
         nuevoEvento.setMaximoEntradasUsuario(entradas);
-        nuevoEvento.setFechaEvento(fechaEvento);
         nuevoEvento.setFechaFinReservas(fechaEntradas);
         nuevoEvento.setUsuarioByIdCreador(usuario.getId());
 
@@ -164,8 +185,9 @@ public class EventoController {
         } else{
             this.eventoService.editarEvento(nuevoEvento,creador);  // Editar evento existente
         }
-
         return "redirect:/listarEventosCreados";
+
     }
+    */
 
 }
