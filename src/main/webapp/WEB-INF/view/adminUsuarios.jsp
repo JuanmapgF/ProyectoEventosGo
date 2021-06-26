@@ -29,7 +29,7 @@
     <header class="container">
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-primary bi bi-hammer" href="/evento/crearEvento" role="button"> Crear Usuario</a>
+            <a class="btn btn-primary bi bi-hammer" href="/CrearUsuarioAdmin" role="button"> Crear Usuario</a>
         </div>
 
         <h1 class="display-1">Lista de usuarios</h1>
@@ -63,9 +63,6 @@
                 <td><%= listaUsuarios.get(i).getCorreo()%></td>
                 <td><%= listaUsuarios.get(i).getRolDescripccion()%></td>
                 <td>
-                    <a class="btn btn-outline-info" href="#/<%= listaUsuarios.get(i).getId()%>" role="button">
-                        <i class="bi bi-eye"></i>
-                    </a>
                     <a class="btn btn-outline-success" href="#/<%= listaUsuarios.get(i).getId()%>" role="button">
                         <i class="bi bi-pencil-square"></i>
                     </a>

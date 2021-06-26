@@ -155,4 +155,14 @@ public class UsuarioController {
         return strTo;
     }
 
+    @GetMapping("/verUsuario/{id}")
+    public String doVerUsuario(@PathVariable("id")Integer id, Model model, HttpSession session){
+        String strTo = "verUsuario";
+
+        UsuarioDTO usuario = this.usuarioService.buscarUsuarioId(id);
+        model.addAttribute("usuario", usuario);
+
+        return strTo;
+    }
+
 }
