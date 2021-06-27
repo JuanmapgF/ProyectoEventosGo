@@ -146,11 +146,11 @@ public class EventoController {
         String filtro="";
         if(usuario.getRol() == 1){
             return this.doListarEventosCreador(filtro, model, sesion);
-        } else if(usuario.getRol() == 4){
-
+        } else if(usuario.getRol() == 0){
+            return this.doListarEventosDisponibles(model);
         }
 
-       return this.doListarEventosCreador(filtro,model, sesion);
+        return this.doListarEventosDisponibles(model);
     }
 
     @GetMapping("/listarEventosAsistidos")
@@ -213,8 +213,6 @@ public class EventoController {
                 listaEtiquetas.add(et);
             }
         }
-
-
 
         EventoDTO nuevoEvento;
         if (id != null){
