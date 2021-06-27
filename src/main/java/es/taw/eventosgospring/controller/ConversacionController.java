@@ -3,6 +3,7 @@ package es.taw.eventosgospring.controller;
 import es.taw.eventosgospring.dto.ConversacionDTO;
 import es.taw.eventosgospring.dto.MensajeDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.entity.Mensaje;
 import es.taw.eventosgospring.entity.Usuario;
 import es.taw.eventosgospring.service.ConversacionService;
 import es.taw.eventosgospring.service.MensajeService;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("conversacion")
@@ -76,7 +78,7 @@ public class ConversacionController {
         model.addAttribute("user", usuarioDTO);
         model.addAttribute("conversacion", conversacionDTO);
         model.addAttribute("otro", otro);
-        model.addAttribute("mensajeNuevo", new MensajeDTO());
+        model.addAttribute("mensajeNuevo", mensajeDTO);
 
         return "chatConversacion";
     }
@@ -87,6 +89,10 @@ public class ConversacionController {
         mensajeDTO.setHora(new Date());
         mensajeDTO.setVisto(0);
 
-        return "";
+        UsuarioDTO usuarioDTO = (UsuarioDTO) session.getAttribute("usuario");
+
+        this.conversacionService.enviarMensaje(mensajeDTO, usuarioDTO);
+
+        return "redirect:/conversacion/" + mensajeDTO.getConversacionByIdConversacion();
     }
 }

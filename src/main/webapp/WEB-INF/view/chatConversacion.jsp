@@ -93,7 +93,7 @@
         if (u.getId() == c.getUsuarioByIdTeleoperador() || u.getId() == c.getUsuarioByIdUsuario()) {
     %>
     <div class="container">
-        <form:form action="ServletMensajeEnviar" method="post" modelAttribute="mensajeNuevo">
+        <form:form action="/conversacion/enviar" method="post" modelAttribute="mensajeNuevo">
             <form:hidden path="conversacionByIdConversacion"/>
             <form:hidden path="usuarioByIdUsuario"/>
             <form:input path="texto" type="text" class="form-control" placeholder="Enviar un mensaje"/>
