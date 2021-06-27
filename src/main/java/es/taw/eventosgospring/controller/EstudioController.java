@@ -99,7 +99,7 @@ public class EstudioController {
         est.setResultado(resultado);
         est.setUsuarioIdAnalista(usuarioDTO.getId());
 
-        if (Integer.parseInt(id) == -1) {
+        if (Integer.parseInt(id) != -1) {
             est.setId(Integer.parseInt(id));
         }
 
