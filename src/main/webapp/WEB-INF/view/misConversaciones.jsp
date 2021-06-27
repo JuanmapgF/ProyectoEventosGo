@@ -14,6 +14,8 @@
 <%@ page import="es.taw.eventosgospring.entity.Conversacion" %>
 <%@ page import="es.taw.eventosgospring.entity.Mensaje" %>
 <%@ page import="es.taw.eventosgospring.entity.Usuario" %>
+<%@ page import="es.taw.eventosgospring.dto.ConversacionDTO" %>
+<%@ page import="es.taw.eventosgospring.dto.MensajeDTO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,8 +23,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Mis Conversaciones</title>
         <%
-            List<Conversacion> lista = (List) request.getAttribute("listaConversaciones");
+            List<ConversacionDTO> lista = (List) request.getAttribute("listaConversaciones");
             String error = (request.getAttribute("error") != null) ? request.getAttribute("error").toString() : "";
+            UsuarioDTO usuarioDTO = (UsuarioDTO) request.getAttribute("user");
+            List<UsuarioDTO> usuarios = (List) request.getAttribute("listaUsuarios");
         %>
 
     </head>
@@ -59,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                    <form action="ServletAsignarTeleoperador" class="row g-3 justify-content-center">
+                    <form action="/conversacion/asignar/tlp" class="row g-3 justify-content-center">
                         <div class="col-auto">
                             <label class="form-label fs-4 my-1">Asunto</label>
                         </div>
@@ -75,7 +79,7 @@
                 } else {
                 %>
                 <div class="container row g-3 justify-content-center">
-                    <a class="btn btn-outline-dark btn-circle btn-circle-sm ms-3 mb-4" href="ServletConversacionListarTodas" role="button">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm ms-3 mb-4" href="/conversacion/historial/tlp" role="button">
                         <i class="bi bi-plus"></i>
                         Consultar chats
                     </a>
@@ -87,17 +91,17 @@
 
             <article class="container">
                 <div class="list-group">
-                    <%                        for (Conversacion c : lista) {
+                    <%                        for (int i = 0; i < lista.size(); i++) {
                             int cntSinLeer = 0;
-                                for (Mensaje m1 : c.getMensajesById()) {
-                                    if (m1.getVisto() == 0 && !m1.getUsuarioByIdUsuario().equals((Usuario) request.getAttribute("user"))) {
+                                for (MensajeDTO m1 : lista.get(i).getMensajesById()) {
+                                    if (m1.getVisto() == 0 && !(m1.getUsuarioByIdUsuario() == usuarioDTO.getId())) {
                                         cntSinLeer++;
                                     }
                                 }
                     %>
-                    <a href="ServletMensajeCargar?idConversacion=<%= c.getId()%>" class="list-group-item list-group-item-action">
+                    <a href="/conversacion/chat/<%= lista.get(i).getId()%>" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
-                            <h3 class="mb-1"><%= c.getAsunto()%></h3>
+                            <h3 class="mb-1"><%= lista.get(i).getAsunto()%></h3>
                             <%
                                 if (cntSinLeer > 0) {
                             %>
@@ -107,8 +111,8 @@
                             %>
 
                         </div>
-                        <p><%= (c.getMensajesById().size() > 0) ? c.getMensajesById().get(c.getMensajesById().size() - 1).getTexto() : ""%></p>
-                        <small><%= (rol == 2) ? c.getUsuarioByIdUsuario().getCorreo() : c.getUsuarioByIdTeleoperador().getNombre()%></small>
+                        <p><%= (lista.get(i).getMensajesById().size() > 0) ? lista.get(i).getMensajesById().get(lista.get(i).getMensajesById().size() - 1).getTexto() : ""%></p>
+                        <small><%= (rol == 2) ? usuarioDTO.getCorreo() : usuarios.get(i).getNombre() %></small>
                     </a>
                     <%
                         }

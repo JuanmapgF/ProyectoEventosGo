@@ -7,10 +7,11 @@
 <%@page import="java.time.Period"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.eventosgospring.entity.UsuarioEvento" %>
-<%@ page import="es.taw.eventosgospring.entity.Estudio" %>
+<%@ page import="es.taw.eventosgospring.dto.UsuarioEventoDTO" %>
+<%@ page import="es.taw.eventosgospring.dto.EstudioDTO" %>
+<%@ page import="java.util.Scanner" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,8 +21,31 @@
     </head>
     <body>
         <%
-            List<UsuarioEvento> lista = (List) request.getAttribute("lista");
-            Estudio e = (Estudio) request.getAttribute("estudio");
+            List<UsuarioEventoDTO> lista = (List) request.getAttribute("lista");
+            EstudioDTO e = (EstudioDTO) request.getAttribute("estudio");
+
+            int edadMinima;
+            int edadMaxima;
+            String ciudad;
+            int anio;
+            int masculino;
+            int femenino;
+            int otro;
+
+
+            // Extraer valores de los filtros
+            try (Scanner sc = new Scanner(e.getResultado())) {
+                sc.useDelimiter(";");
+                edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                String auxsc = sc.next();
+                ciudad = (sc.hasNext() && !auxsc.isEmpty()) ? auxsc : null;
+                anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            }
+
         %>
 
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -48,22 +72,22 @@
                     if (e.getId() != null) {
                         %>
                         
-                        <a href="ServletAlmacenarEstudio?estudio=<%= e.getId() %>&titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Guardar</a>
-                        <a href="ServletAlmacenarEstudio?titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Guardar como nuevo</a>
+                        <a href="/estudios/guardar/<%= e.getTitulo() %>/<%= edadMinima %>/<%= edadMaxima %>/<%= ciudad %>/<%= anio %>/<%= masculino %>/<%= femenino %>/<%= otro %>/<%= e.getId() %>" class="btn btn-primary" role="button">Guardar</a>
+                        <a href="/estudios/guardar/<%= e.getTitulo() %>/<%= edadMinima %>/<%= edadMaxima %>/<%= ciudad %>/<%= anio %>/<%= masculino %>/<%= femenino %>/<%= otro %>/<%= -1 %>" class="btn btn-primary" role="button">Guardar como nuevo</a>
                         
                         
                         <%
                     } else {
                         %>
                         
-                        <a href="ServletAlmacenarEstudio?titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Crear Estudio</a>
-                        
+                        <a href="/estudios/guardar/<%= e.getTitulo() %>/<%= edadMinima %>/<%= edadMaxima %>/<%= ciudad %>/<%= anio %>/<%= masculino %>/<%= femenino %>/<%= otro %>/<%= -1 %>" class="btn btn-primary" role="button">Crear Estudio</a>
+
                         <%
 
                     }
                 %>
                 
-                <a href="ServletEstudioCargar" class="btn btn-secondary btn-sm" role="button">Cancelar</a>
+                <a href="/estudios/" class="btn btn-secondary btn-sm" role="button">Cancelar</a>
             </header>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
@@ -78,11 +102,11 @@
                     <tbody>
                         <%
                             int i = 1;
-                            for (UsuarioEvento u : lista) {
+                            for (UsuarioEventoDTO u : lista) {
                         %>
                         <tr>
                             <th scope="row"><%= i %></th>
-                            <td><%= u.getUsuarioById().getNombre()%></td>
+                            <td><%= u.getNombre() %></td>
                             <%
                                 SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
                                 SimpleDateFormat sdf1 = new SimpleDateFormat("MM");

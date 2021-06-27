@@ -18,6 +18,7 @@ public class Mensaje {
     private Usuario usuarioByIdUsuario;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -108,8 +109,8 @@ public class Mensaje {
         dto.setHora(this.hora);
         dto.setTexto(this.texto);
         dto.setVisto(this.visto);
-        dto.setConversacionByIdConversacion(this.conversacionByIdConversacion.getDTO());
-        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getDTO());
+        dto.setConversacionByIdConversacion(this.conversacionByIdConversacion.getId());
+        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getId());
 
         return dto;
     }

@@ -4,7 +4,7 @@ public class EstudioDTO {
     private Integer id;
     private String titulo;
     private String resultado;
-    private UsuarioDTO usuarioByIdAnalista;
+    private Integer usuarioIdAnalista;
 
     public Integer getId() {
         return id;
@@ -30,11 +30,11 @@ public class EstudioDTO {
         this.resultado = resultado;
     }
 
-    public UsuarioDTO getUsuarioByIdAnalista() {
-        return usuarioByIdAnalista;
+    public Integer getUsuarioIdAnalista() {
+        return usuarioIdAnalista;
     }
 
-    public void setUsuarioByIdAnalista(UsuarioDTO usuarioByIdAnalista) {
-        this.usuarioByIdAnalista = usuarioByIdAnalista;
+    public void setUsuarioIdAnalista(Integer usuarioIdAnalista) {
+        this.usuarioIdAnalista = usuarioIdAnalista;
     }
 }

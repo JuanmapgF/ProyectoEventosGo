@@ -5,8 +5,8 @@ import java.util.List;
 public class ConversacionDTO {
     private Integer id;
     private String asunto;
-    private UsuarioDTO usuarioByIdTeleoperador;
-    private UsuarioDTO usuarioByIdUsuario;
+    private Integer usuarioByIdTeleoperador;
+    private Integer usuarioByIdUsuario;
     private List<MensajeDTO> mensajesById;
 
     public Integer getId() {
@@ -25,19 +25,19 @@ public class ConversacionDTO {
         this.asunto = asunto;
     }
 
-    public UsuarioDTO getUsuarioByIdTeleoperador() {
+    public Integer getUsuarioByIdTeleoperador() {
         return usuarioByIdTeleoperador;
     }
 
-    public void setUsuarioByIdTeleoperador(UsuarioDTO usuarioByIdTeleoperador) {
+    public void setUsuarioByIdTeleoperador(Integer usuarioByIdTeleoperador) {
         this.usuarioByIdTeleoperador = usuarioByIdTeleoperador;
     }
 
-    public UsuarioDTO getUsuarioByIdUsuario() {
+    public Integer getUsuarioByIdUsuario() {
         return usuarioByIdUsuario;
     }
 
-    public void setUsuarioByIdUsuario(UsuarioDTO usuarioByIdUsuario) {
+    public void setUsuarioByIdUsuario(Integer usuarioByIdUsuario) {
         this.usuarioByIdUsuario = usuarioByIdUsuario;
     }
 

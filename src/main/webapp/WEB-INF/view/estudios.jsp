@@ -54,7 +54,7 @@
                     <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
                 </div>
                 <div class="mt-auto align-middle">
-                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="crearEstudio.jsp" role="button">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="/estudios/crear" role="button">
                         <i class="bi bi-plus"></i>
                     </a>
                 </div>
@@ -72,21 +72,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%                            int i;
+                        <%
+                            int i;
                             for (i = (pagina - 1) * 10; i < estudios.size() && i < (pagina * 10); i++) {
                         %>
                         <tr>
-                            <th scope="row"><%= (i + 1)%></th>
-                            <td><%= estudios.get(i).getTitulo()%></td>
-                            <td><%= resultados.get(i)%></td>
+                            <th scope="row"><%= (i + 1) %></th>
+                            <td><%= estudios.get(i).getTitulo() %></td>
+                            <td><%= resultados.get(i)%> </td>
                             <td>
-                                <a class="btn btn-outline-info" href="ServletEstudioVer?estudio=<%= estudios.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-info" href="/estudios/info/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a class="btn btn-outline-success" href="ServletEstudioEditar?estudio=<%= estudios.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-success" href="/estudios/editar/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a class="btn btn-outline-danger" href="ServletEstudioEliminar?estudio=<%= estudios.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-danger" href="/estudios/borrar/<%= estudios.get(i).getId()%>" role="button">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
@@ -116,14 +117,14 @@
                     %>
                     <li class="page-item <%= (pagina > 1) ? "" : "disabled"%>">
 
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>">
+                        <a class="page-link" href="/estudios/<%= pagina - 1%>">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <%
                         if (pagina == totalPaginas && totalPaginas > 2) {
                     %>
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 2%>"><%= pagina - 2%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina - 2%>"><%= pagina - 2%></a></li>
                         <%
                             }
                         %>
@@ -131,27 +132,27 @@
                             if (pagina > 1) {
                         %>
 
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>"><%= pagina - 1%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina - 1%>"><%= pagina - 1%></a></li>
                         <%
                             }
                         %>
 
 
-                    <li class="page-item active"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina%>"><%= pagina%></a></li>
+                    <li class="page-item active"><a class="page-link active" href="/estudios/<%= pagina%>"><%= pagina%></a></li>
                         <%
                             if (pagina < totalPaginas) {
                         %>
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>"><%= pagina + 1%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina + 1%>"><%= pagina + 1%></a></li>
                         <%
                             if (pagina == 1 && totalPaginas > 2) {
                         %>
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 2%>"><%= pagina + 2%></a></li>
+                    <li class="page-item"><a class="page-link" href="/estudios/<%= pagina + 2%>"><%= pagina + 2%></a></li>
                         <%
                                 }
                             }
                         %>
                     <li class="page-item <%= (pagina < totalPaginas) ? "" : "disabled"%>">
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>">
+                        <a class="page-link" href="/estudios/<%= pagina + 1%>">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

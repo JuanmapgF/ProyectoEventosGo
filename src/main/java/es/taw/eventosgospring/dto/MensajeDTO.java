@@ -8,8 +8,8 @@ public class MensajeDTO {
     private Date hora;
     private String texto;
     private Integer visto;
-    private ConversacionDTO conversacionByIdConversacion;
-    private UsuarioDTO usuarioByIdUsuario;
+    private Integer conversacionByIdConversacion;
+    private Integer usuarioByIdUsuario;
 
     public Integer getId() {
         return id;
@@ -51,19 +51,19 @@ public class MensajeDTO {
         this.visto = visto;
     }
 
-    public ConversacionDTO getConversacionByIdConversacion() {
+    public Integer getConversacionByIdConversacion() {
         return conversacionByIdConversacion;
     }
 
-    public void setConversacionByIdConversacion(ConversacionDTO conversacionByIdConversacion) {
+    public void setConversacionByIdConversacion(Integer conversacionByIdConversacion) {
         this.conversacionByIdConversacion = conversacionByIdConversacion;
     }
 
-    public UsuarioDTO getUsuarioByIdUsuario() {
+    public Integer getUsuarioByIdUsuario() {
         return usuarioByIdUsuario;
     }
 
-    public void setUsuarioByIdUsuario(UsuarioDTO usuarioByIdUsuario) {
+    public void setUsuarioByIdUsuario(Integer usuarioByIdUsuario) {
         this.usuarioByIdUsuario = usuarioByIdUsuario;
     }
 }

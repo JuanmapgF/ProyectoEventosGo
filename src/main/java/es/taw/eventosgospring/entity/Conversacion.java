@@ -17,6 +17,7 @@ public class Conversacion {
     private List<Mensaje> mensajesById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -83,8 +84,8 @@ public class Conversacion {
         ConversacionDTO dto = new ConversacionDTO();
         dto.setId(this.id);
         dto.setAsunto(this.asunto);
-        dto.setUsuarioByIdTeleoperador(this.usuarioByIdTeleoperador.getDTO());
-        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getDTO());
+        dto.setUsuarioByIdTeleoperador(this.usuarioByIdTeleoperador.getId());
+        dto.setUsuarioByIdUsuario(this.usuarioByIdUsuario.getId());
         List<MensajeDTO> mensajeList = new ArrayList<>();
         for (Mensaje m:this.mensajesById) {
             mensajeList.add(m.getDTO());

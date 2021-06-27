@@ -71,9 +71,15 @@ public class AutenticarController {
                     case 1: strTo="redirect:/evento/listarEventosCreados";
                             break;
 
-                    case 2: break;
+                    case 2: UsuarioDTO usuarioDTO = this.usuarioService.buscarUsuarioId(user.getId());
+                            sesion.setAttribute("usuario", usuarioDTO);
+                            strTo = "redirect:/conversacion/0";
+                            break;
 
-                    case 3: break;
+                    case 3: UsuarioDTO usuarioDTO1 = this.usuarioService.buscarUsuarioId(user.getId());
+                            sesion.setAttribute("usuario", usuarioDTO1);
+                            strTo = "redirect:/estudios/";
+                            break;
 
                     case 4: UsuarioEventoDTO userEvento = this.usuarioEventoService.buscarUsuarioEventoId(user.getId());
                             sesion.setAttribute("usuarioEvento", userEvento);

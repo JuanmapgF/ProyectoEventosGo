@@ -6,6 +6,7 @@
 
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.eventosgospring.entity.Conversacion" %>
+<%@ page import="es.taw.eventosgospring.dto.ConversacionDTO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,8 +19,10 @@
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
 
-        <%            List<Conversacion> lista = (List) request.getAttribute("listaConversaciones");
+        <%
+            List<ConversacionDTO> lista = (List) request.getAttribute("listaConversaciones");
             int id = Integer.parseInt(request.getAttribute("idUsuario").toString());
+            List<UsuarioDTO> usuarios = (List) request.getAttribute("usuarios");
         %>
 
         <section class="container shadow-lg p-3 mb-5 bg-body rounded py-3 align-middle">
@@ -29,16 +32,42 @@
             </header>
             <article class="container">
                 <div class="list-group">
-                    <%                        for (Conversacion c : lista) {
+                    <%                        for (int i = 0; i < lista.size(); i++) {
                     %>
-                    <a href="ServletMensajeCargar?idConversacion=<%= c.getId() %>" class="list-group-item list-group-item-action">
+                    <a href="/conversacion/chat/<%= lista.get(i).getId() %>" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
-                            <h3 class="mb-1"><%= c.getAsunto()%></h3>
+                            <h3 class="mb-1"><%= lista.get(i).getAsunto()%></h3>
                         </div>
-                        <p><%= (c.getMensajesById().size() > 0) ? c.getMensajesById().get(c.getMensajesById().size() - 1).getTexto() : ""%></p>
+                        <p><%= (lista.get(i).getMensajesById().size() > 0) ? lista.get(i).getMensajesById().get(lista.get(i).getMensajesById().size() - 1).getTexto() : ""%></p>
                         <div class="d-flex w-100 justify-content-between">
-                            <small><%= (id == c.getUsuarioByIdTeleoperador().getId()) ? "Tú" : c.getUsuarioByIdTeleoperador().getNombre()%> </small>
-                            <small><%= c.getUsuarioByIdUsuario().getCorreo()%> </small>
+
+                            <%
+                                    if (id == lista.get(i).getUsuarioByIdTeleoperador()) {
+                                        %>
+                            <small><%="Tú"%></small>
+                            <%
+                                    } else {
+                                        String txt = "";
+                                        for (UsuarioDTO usu : usuarios) {
+                                            if (lista.get(i).getUsuarioByIdTeleoperador() == usu.getId()) {
+                                                txt = usu.getNombre();
+                                            }
+                                        }
+                            %>
+                            <small><%= txt %></small>
+                            <%
+                                    }
+                            %>
+
+                            <%
+                                for (UsuarioDTO usu : usuarios) {
+                                    if (lista.get(i).getUsuarioByIdUsuario() == usu.getId()) {
+                                        %>
+                            <small><%= usu.getCorreo() %> </small>
+                                        <%
+                                    }
+                                }
+                            %>
                         </div>
                     </a>
                     <%
