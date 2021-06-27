@@ -3,6 +3,7 @@ package es.taw.eventosgospring.service;
 import es.taw.eventosgospring.dao.ConversacionRepository;
 import es.taw.eventosgospring.dao.UsuarioRepository;
 import es.taw.eventosgospring.dto.ConversacionDTO;
+import es.taw.eventosgospring.dto.MensajeDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
 import es.taw.eventosgospring.entity.Conversacion;
 import es.taw.eventosgospring.entity.Usuario;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConversacionService {
@@ -51,6 +53,21 @@ public class ConversacionService {
         }
 
         return res;
+
+    }
+
+    public ConversacionDTO getConversacionDTO(Integer id) {
+        Optional<Conversacion> opt = this.conversacionRepository.findById(id);
+        Conversacion conversacion = opt.get();
+
+        return conversacion.getDTO();
+    }
+
+    public void enviarMensaje(MensajeDTO mensajeDTO) {
+        Optional<Conversacion> opt = this.conversacionRepository.findById(mensajeDTO.getConversacionByIdConversacion());
+        Conversacion conversacion = opt.get();
+
+
 
     }
 

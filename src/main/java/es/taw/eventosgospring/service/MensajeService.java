@@ -6,6 +6,8 @@ import es.taw.eventosgospring.entity.Mensaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,16 @@ public class MensajeService {
         }
 
         return res;
+    }
+
+    public void addMensaje(MensajeDTO mensajeDTO) {
+
+        Mensaje mensaje = new Mensaje();
+        mensaje.setFecha(mensajeDTO.getFecha());
+        //mensaje.setHora(mensajeDTO.getHora().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().);
+        mensaje.setTexto(mensajeDTO.getTexto());
+
+        this.mensajeRepository.save(mensaje);
     }
 
 }
