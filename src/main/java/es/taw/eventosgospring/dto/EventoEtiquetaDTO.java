@@ -2,8 +2,8 @@ package es.taw.eventosgospring.dto;
 
 public class EventoEtiquetaDTO {
     private Integer id;
-    private EventoDTO eventoByIdEvento;
-    private EtiquetaDTO etiquetaByIdEtiqueta;
+    private Integer eventoByIdEvento;
+    private Integer etiquetaByIdEtiqueta;
 
     public Integer getId() {
         return id;
@@ -13,19 +13,19 @@ public class EventoEtiquetaDTO {
         this.id = id;
     }
 
-    public EventoDTO getEventoByIdEvento() {
+    public Integer getEventoByIdEvento() {
         return eventoByIdEvento;
     }
 
-    public void setEventoByIdEvento(EventoDTO eventoByIdEvento) {
+    public void setEventoByIdEvento(Integer eventoByIdEvento) {
         this.eventoByIdEvento = eventoByIdEvento;
     }
 
-    public EtiquetaDTO getEtiquetaByIdEtiqueta() {
+    public Integer getEtiquetaByIdEtiqueta() {
         return etiquetaByIdEtiqueta;
     }
 
-    public void setEtiquetaByIdEtiqueta(EtiquetaDTO etiquetaByIdEtiqueta) {
+    public void setEtiquetaByIdEtiqueta(Integer etiquetaByIdEtiqueta) {
         this.etiquetaByIdEtiqueta = etiquetaByIdEtiqueta;
     }
 }

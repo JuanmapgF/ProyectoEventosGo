@@ -44,7 +44,7 @@
     Integer aforo = evento.getAforo();
     Integer entradas = evento.getMaximoEntradasUsuario();
 
-    String etiquetas = request.getParameter("etiquetas");
+    String etiquetas = (String) request.getAttribute("etiquetas");
 
     String strTo = "";
 
@@ -69,7 +69,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <input type="text" name="id" value="<%= evento.getId()%>" hidden/>
+                    <input type="hidden" name="id" value="<%= evento.getId()%>" />
                 </div>
             </div>
             <div class="row">
@@ -86,7 +86,7 @@
                     Descripci&oacute;n:
                 </div>
                 <div class="col-8">
-                    <textarea name="" rows="4" cols="50"><%= evento.getDescripcion()%></textarea>
+                    <textarea name="descripcion" rows="4" cols="50"><%= evento.getDescripcion()%></textarea>
                 </div>
             </div>
             <div class="row"><br/></div>
@@ -140,7 +140,7 @@
                     Etiquetas:
                 </div>
                 <div class="col-8">
-                    <textarea name="etiquetas" rows="4" cols="50"><%= etiquetas%></textarea>
+                    <textarea name="etiquetas" rows="4" cols="50"> <%= etiquetas %></textarea>
                 </div>
             </div>
             <div class="row"><br/></div>
