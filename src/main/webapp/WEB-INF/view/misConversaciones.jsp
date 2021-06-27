@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                    <form action="ServletAsignarTeleoperador" class="row g-3 justify-content-center">
+                    <form action="/conversacion/asignar/tlp" class="row g-3 justify-content-center">
                         <div class="col-auto">
                             <label class="form-label fs-4 my-1">Asunto</label>
                         </div>
@@ -79,7 +79,7 @@
                 } else {
                 %>
                 <div class="container row g-3 justify-content-center">
-                    <a class="btn btn-outline-dark btn-circle btn-circle-sm ms-3 mb-4" href="ServletConversacionListarTodas" role="button">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm ms-3 mb-4" href="/conversacion/historial/tlp" role="button">
                         <i class="bi bi-plus"></i>
                         Consultar chats
                     </a>
@@ -99,7 +99,7 @@
                                     }
                                 }
                     %>
-                    <a href="/conversacion/<%= lista.get(i).getId()%>" class="list-group-item list-group-item-action">
+                    <a href="/conversacion/chat/<%= lista.get(i).getId()%>" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h3 class="mb-1"><%= lista.get(i).getAsunto()%></h3>
                             <%

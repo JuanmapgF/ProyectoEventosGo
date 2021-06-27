@@ -42,8 +42,8 @@ public class ConversacionController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/")
-    public String doMisConversaciones(Model model, HttpSession session) {
+    @GetMapping("/{error}")
+    public String doMisConversaciones(@PathVariable("error") String error, Model model, HttpSession session) {
         UsuarioDTO usuarioDTO = (UsuarioDTO) session.getAttribute("usuario");
         List<ConversacionDTO> lista = this.conversacionService.getListaConversacionesUsuario(usuarioDTO);
 
@@ -53,10 +53,16 @@ public class ConversacionController {
         model.addAttribute("user", usuarioDTO);
         model.addAttribute("listaUsuarios", usuarios);
 
+        if (Integer.parseInt(error) != 0) {
+            model.addAttribute("error", "error");
+        } else {
+            model.addAttribute("error", null);
+        }
+
         return "misConversaciones";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/chat/{id}")
     public String doMensajeCargar(@PathVariable("id") Integer id, Model model, HttpSession session) {
 
         List<MensajeDTO> mensajes = this.mensajeService.getMensajeDTOByIDConversacion(id);
@@ -69,6 +75,12 @@ public class ConversacionController {
             otro = this.usuarioService.buscarUsuarioId(conversacionDTO.getUsuarioByIdUsuario());
         }
 
+        UsuarioDTO aux = this.usuarioService.buscarUsuarioId(conversacionDTO.getUsuarioByIdTeleoperador());
+
+        if (usuarioDTO.getId() == conversacionDTO.getUsuarioByIdUsuario() || usuarioDTO.getId() == conversacionDTO.getUsuarioByIdTeleoperador()) {
+            this.mensajeService.setVisto(mensajes, usuarioDTO);
+        }
+
         MensajeDTO mensajeDTO = new MensajeDTO();
         mensajeDTO.setConversacionByIdConversacion(conversacionDTO.getId());
         mensajeDTO.setUsuarioByIdUsuario(usuarioDTO.getId());
@@ -79,11 +91,12 @@ public class ConversacionController {
         model.addAttribute("conversacion", conversacionDTO);
         model.addAttribute("otro", otro);
         model.addAttribute("mensajeNuevo", mensajeDTO);
+        model.addAttribute("aux", aux);
 
         return "chatConversacion";
     }
 
-    @PostMapping("/enviar")
+    @PostMapping("/enviar/msg")
     public String doMensajeEnviar(@ModelAttribute("mensajeNuevo") MensajeDTO mensajeDTO, Model model, HttpSession session) {
         mensajeDTO.setFecha(new Date());
         mensajeDTO.setHora(new Date());
@@ -93,6 +106,29 @@ public class ConversacionController {
 
         this.conversacionService.enviarMensaje(mensajeDTO, usuarioDTO);
 
-        return "redirect:/conversacion/" + mensajeDTO.getConversacionByIdConversacion();
+        return "redirect:/conversacion/chat/" + mensajeDTO.getConversacionByIdConversacion();
+    }
+
+    @GetMapping("/asignar/tlp")
+    public String doAsignarTeleoperador(@RequestParam("asunto") String asunto, Model model, HttpSession session) {
+
+        UsuarioDTO usuarioDTO = (UsuarioDTO) session.getAttribute("usuario");
+
+        Integer error = this.conversacionService.asignarTeleoperador(asunto, usuarioDTO);
+
+        return "redirect:/conversacion/" + error;
+    }
+
+    @GetMapping("/historial/tlp")
+    public String doHistorialTeleoperador(Model model, HttpSession session) {
+        List<ConversacionDTO> conversaciones = this.conversacionService.getTodasLasConversaciones();
+        model.addAttribute("listaConversaciones", conversaciones);
+
+        UsuarioDTO usuarioDTO = (UsuarioDTO) session.getAttribute("usuario");
+        model.addAttribute("idUsuario", usuarioDTO.getId());
+
+        model.addAttribute("usuarios", this.conversacionService.getTodosLosUsuarios());
+
+        return "historialConversaciones";
     }
 }

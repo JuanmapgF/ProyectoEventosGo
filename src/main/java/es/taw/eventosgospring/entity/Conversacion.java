@@ -17,6 +17,7 @@ public class Conversacion {
     private List<Mensaje> mensajesById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;

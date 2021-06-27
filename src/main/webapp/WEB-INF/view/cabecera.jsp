@@ -72,7 +72,7 @@
           if (rol == 2 || rol == 4 || rol == 1) {
         %>
         <li class="nav-item">
-          <a class="nav-link" href="/conversacion/">Mis Conversaciones</a>
+          <a class="nav-link" href="/conversacion/0">Mis Conversaciones</a>
         </li>
         <%
           }

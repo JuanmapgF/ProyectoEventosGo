@@ -86,4 +86,78 @@ public class ConversacionService {
         this.conversacionRepository.save(conversacion);
     }
 
+    public Integer asignarTeleoperador(String asunto, UsuarioDTO usuarioDTO) {
+        List<Usuario> teleoperadores = this.usuarioRepository.findByRol(2);
+
+        Optional<Usuario> opt2 = this.usuarioRepository.findById(usuarioDTO.getId());
+        Usuario usuario = opt2.get();
+
+        if (teleoperadores == null || teleoperadores.isEmpty()) {
+            return 1;
+        } else {
+            Usuario tlp = teleoperadores.get(0);
+            List<Conversacion> conv = new ArrayList<>();
+            conv.addAll(teleoperadores.get(0).getConversacionsById());
+            conv.addAll(teleoperadores.get(0).getConversacionsById_0());
+            int num = conv.size();
+            for (int i = 1; i < teleoperadores.size(); i++) {
+                List<Conversacion> conversaciones = new ArrayList<>();
+                conversaciones.addAll(teleoperadores.get(i).getConversacionsById());
+                conversaciones.addAll(teleoperadores.get(i).getConversacionsById_0());
+                if (num > conversaciones.size()) {
+                    tlp = teleoperadores.get(i);
+                    num = conversaciones.size();
+                }
+            }
+
+            Conversacion c = new Conversacion();
+            c.setAsunto(asunto);
+            c.setUsuarioByIdTeleoperador(tlp);
+            c.setUsuarioByIdUsuario(usuario);
+            List<Mensaje> listaMensaje = new ArrayList<>();
+            c.setMensajesById(listaMensaje);
+
+            List<Conversacion> listaC = new ArrayList<>();
+            listaC.addAll(usuario.getConversacionsById());
+            listaC.addAll(usuario.getConversacionsById_0());
+            listaC.add(c);
+            usuario.setConversacionsById(listaC);
+
+            List<Conversacion> listaC2 = new ArrayList<>();
+            listaC2.addAll(tlp.getConversacionsById_0());
+            listaC2.addAll(tlp.getConversacionsById());
+            listaC2.add(c);
+            tlp.setConversacionsById(listaC2);
+
+            this.conversacionRepository.save(c);
+            this.usuarioRepository.save(usuario);
+            this.usuarioRepository.save(tlp);
+
+            return 0;
+
+        }
+    }
+
+    public List<ConversacionDTO> getTodasLasConversaciones() {
+        List<Conversacion> lista = this.conversacionRepository.findAll();
+
+        List<ConversacionDTO> res = new ArrayList<>();
+        for (Conversacion c : lista) {
+            res.add(c.getDTO());
+        }
+
+        return res;
+    }
+
+    public List<UsuarioDTO> getTodosLosUsuarios() {
+        List<Usuario> l = this.usuarioRepository.findAll();
+
+        List<UsuarioDTO> res = new ArrayList<>();
+        for (Usuario u : l) {
+            res.add(u.getDTO());
+        }
+
+        return res;
+    }
+
 }

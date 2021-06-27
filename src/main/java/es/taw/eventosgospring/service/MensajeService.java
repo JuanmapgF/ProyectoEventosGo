@@ -2,6 +2,7 @@ package es.taw.eventosgospring.service;
 
 import es.taw.eventosgospring.dao.MensajeRepository;
 import es.taw.eventosgospring.dto.MensajeDTO;
+import es.taw.eventosgospring.dto.UsuarioDTO;
 import es.taw.eventosgospring.entity.Conversacion;
 import es.taw.eventosgospring.entity.Mensaje;
 import es.taw.eventosgospring.entity.Usuario;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MensajeService {
@@ -50,6 +52,19 @@ public class MensajeService {
         this.mensajeRepository.save(mensaje);
 
         return mensaje;
+    }
+
+    public void setVisto(List<MensajeDTO> mensajes, UsuarioDTO usuarioDTO) {
+        for (MensajeDTO m : mensajes) {
+            if (m.getUsuarioByIdUsuario() != usuarioDTO.getId()) {
+                Optional<Mensaje> opt = this.mensajeRepository.findById(m.getId());
+                Mensaje mensaje = opt.get();
+
+                mensaje.setVisto(1);
+
+                this.mensajeRepository.save(mensaje);
+            }
+        }
     }
 
 }

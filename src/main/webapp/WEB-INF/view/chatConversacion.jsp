@@ -21,15 +21,18 @@
         ConversacionDTO c = (ConversacionDTO) request.getAttribute("conversacion");
         UsuarioDTO u = (UsuarioDTO) request.getAttribute("user");
         UsuarioDTO otro = (UsuarioDTO) request.getAttribute("otro");
+        UsuarioDTO aux = (UsuarioDTO) request.getAttribute("aux");
         String destino, origen;
 
-        if (u.getRol() == 4) {
+        if (c.getUsuarioByIdTeleoperador() == u.getId() || c.getUsuarioByIdUsuario() == u.getId()) {
             origen = u.getNombre();
             destino = otro.getNombre();
         } else {
-            origen = otro.getNombre();
-            destino = u.getNombre();
+            origen = aux.getNombre();
+            destino = otro.getNombre();
         }
+
+
     %>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><%= c.getAsunto()%>
@@ -93,7 +96,7 @@
         if (u.getId() == c.getUsuarioByIdTeleoperador() || u.getId() == c.getUsuarioByIdUsuario()) {
     %>
     <div class="container">
-        <form:form action="/conversacion/enviar" method="post" modelAttribute="mensajeNuevo">
+        <form:form action="/conversacion/enviar/msg" method="post" modelAttribute="mensajeNuevo">
             <form:hidden path="conversacionByIdConversacion"/>
             <form:hidden path="usuarioByIdUsuario"/>
             <form:input path="texto" type="text" class="form-control" placeholder="Enviar un mensaje"/>
