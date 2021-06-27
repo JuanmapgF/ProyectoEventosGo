@@ -2,7 +2,11 @@ package es.taw.eventosgospring.service;
 
 import es.taw.eventosgospring.dao.EntradaRepository;
 import es.taw.eventosgospring.dao.EventoRepository;
+import es.taw.eventosgospring.dao.UsuarioRepository;
+import es.taw.eventosgospring.dto.EtiquetaDTO;
 import es.taw.eventosgospring.dto.EventoDTO;
+import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
+import es.taw.eventosgospring.dto.UsuarioDTO;
 import es.taw.eventosgospring.entity.Entrada;
 import es.taw.eventosgospring.entity.Evento;
 import es.taw.eventosgospring.entity.Usuario;
@@ -20,6 +24,9 @@ public class EventoService {
 
     private EventoRepository eventoRepository;
     private EntradaRepository entradaRepository;
+    private UsuarioRepository usuarioRepository;
+
+
 
     @Autowired
     public void setEntradaRepository(EntradaRepository entradaRepository) {
@@ -29,6 +36,11 @@ public class EventoService {
     @Autowired
     public void setEventoRepository(EventoRepository eventoRepository) {
         this.eventoRepository = eventoRepository;
+    }
+
+    @Autowired
+    public void setUsuarioRepository(UsuarioRepository usuarioRepository){
+        this.usuarioRepository = usuarioRepository;
     }
 
     protected List<EventoDTO> convertirAListaDTO(List<Evento> eventosDisponibles){
@@ -93,24 +105,6 @@ public class EventoService {
 
         this.eventoRepository.delete(evento);
     }
-    /*
-    public void crearEvento(EventoDTO nuevoEvento, Usuario creador) {
-        Evento evento = new Evento();
-
-        evento.setTitulo(nuevoEvento.getTitulo());
-        evento.setAforo(nuevoEvento.getAforo());
-        evento.setDescripcion(nuevoEvento.getDescripcion());
-        evento.setCoste(nuevoEvento.getCoste());
-        evento.setFechaEvento(nuevoEvento.getFechaEvento());
-        evento.setFechaFinReservas(nuevoEvento.getFechaFinReservas());
-        evento.setUsuarioByIdCreador(creador);
-        evento.setMaximoEntradasUsuario(nuevoEvento.getMaximoEntradasUsuario());
-
-    }
-
-    public void editarEvento(EventoDTO nuevoEvento, Usuario creador) {
-    }
-    */
 
 
     public Map<EventoDTO, Integer> listarEventosAsistidosFiltro(String filtroEvento, Integer id) {
@@ -167,4 +161,33 @@ public class EventoService {
 
             return resultado;
         }
+
+    public Integer guardarEvento(EventoDTO nuevoEvento, UsuarioDTO usuario, List<EtiquetaDTO> listaEtiquetas) {
+        Evento evento;
+        Usuario creador = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+
+        if(nuevoEvento.getId() == null){
+            evento = new Evento();
+        }else{
+            evento = this.buscarEvento(nuevoEvento.getId());
+        }
+
+        evento.setTitulo(nuevoEvento.getTitulo());
+        evento.setDescripcion(nuevoEvento.getDescripcion());
+        evento.setCoste(nuevoEvento.getCoste());
+        evento.setAforo(nuevoEvento.getAforo());
+        evento.setMaximoEntradasUsuario(nuevoEvento.getMaximoEntradasUsuario());
+        evento.setFechaEvento(nuevoEvento.getFechaEvento());
+        evento.setFechaFinReservas(nuevoEvento.getFechaFinReservas());
+        evento.setUsuarioByIdCreador(creador);
+
+        this.eventoRepository.save(evento);
+
+        List<Evento> listaEventos = creador.getEventosById();
+        listaEventos.add(evento);
+        creador.setEventosById(listaEventos);
+        this.usuarioRepository.save(creador);
+
+        return evento.getId();
+    }
 }

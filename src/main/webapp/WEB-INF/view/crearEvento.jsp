@@ -39,7 +39,7 @@
         <h1>Datos del evento</h1>
     </header>
 
-    <form method='POST' action="/evento/guardarEvento">
+    <form action="/evento/guardarEvento">
         <div class="container">
             <div class="row">
                 <div class="col-8">
