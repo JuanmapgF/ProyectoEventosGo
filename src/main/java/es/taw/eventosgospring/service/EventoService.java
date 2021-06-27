@@ -103,7 +103,21 @@ public class EventoService {
     public void eliminarEvento(Integer eventoid) {
         Evento evento = this.eventoRepository.findById(eventoid).orElse(null);
 
+        for(Entrada e : this.entradaRepository.findAll()){
+            if(e.getEventoByIdEvento().getId() == evento.getId()){
+                this.entradaRepository.delete(e);
+            }
+        }
+
+        for(EventoEtiqueta evet : this.eventoEtiquetaRepository.findAll()){
+            if(evet.getEventoByIdEvento().getId() == evento.getId()){
+                this.eventoEtiquetaRepository.delete(evet);
+            }
+        }
+
         this.eventoRepository.delete(evento);
+
+
     }
 
 
