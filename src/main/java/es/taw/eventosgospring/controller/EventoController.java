@@ -111,11 +111,25 @@ public class EventoController {
         String strTo = "eventoEditar";
 
         EventoDTO eventoDTO = this.eventoService.buscarEventoId(id);
-        Evento evento = this.eventoService.buscarEvento(id);
         String etiquetas = "";
-        for(EventoEtiqueta e :evento.getEventoEtiquetasById()) {
-            etiquetas += e.getEtiquetaByIdEtiqueta().getNombre();
+
+        EventoEtiquetaDTO evetdto = this.eventoEtiquetaService.buscarEventoEtiquetaId(eventoDTO.getEventoEtiquetasById().get(0));
+        EtiquetaDTO et = this.etiquetaService.findById(evetdto.getEtiquetaByIdEtiqueta());
+        String nombreEtiqueta = et.getNombre();
+        etiquetas += nombreEtiqueta;
+        int i=1;
+        while(i<eventoDTO.getEventoEtiquetasById().size()-1) {
+            evetdto = this.eventoEtiquetaService.buscarEventoEtiquetaId(eventoDTO.getEventoEtiquetasById().get(i));
+            et = this.etiquetaService.findById(evetdto.getEtiquetaByIdEtiqueta());
+            nombreEtiqueta = et.getNombre();
+            etiquetas += ", " + nombreEtiqueta;
+            i++;
         }
+        evetdto = this.eventoEtiquetaService.buscarEventoEtiquetaId(eventoDTO.getEventoEtiquetasById().get(i));
+        et = this.etiquetaService.findById(evetdto.getEtiquetaByIdEtiqueta());
+        nombreEtiqueta = et.getNombre();
+        etiquetas += ", " + nombreEtiqueta;
+
         model.addAttribute("evento", eventoDTO);
         model.addAttribute("etiquetas",etiquetas);
 
@@ -161,7 +175,7 @@ public class EventoController {
     }
 
 
-    @GetMapping("/guardarEvento")
+    @PostMapping("/guardarEvento")
     public String doGuardarEvento(@RequestParam(value = "id", required = false)Integer id,
                                   @RequestParam("titulo")String titulo,
                                   @RequestParam("fechaEntradas")String fechaEn,
@@ -181,6 +195,7 @@ public class EventoController {
         Date fechaEntradas = formato.parse(fechaEn);
 
         List<EtiquetaDTO> listaEtiquetas = new ArrayList<>();
+        List<Integer> listaEtiquetasId = new ArrayList<>();
         String[] etiquetas = strEtiquetas.split("\\W");
 
         for(String s : etiquetas){
@@ -191,11 +206,14 @@ public class EventoController {
                     et = new EtiquetaDTO();
                     et.setNombre(s);
                     this.etiquetaService.crearEtiqueta(et);
+                    et = this.etiquetaService.findByName(s);
                 }
 
+                listaEtiquetasId.add(et.getId());
                 listaEtiquetas.add(et);
             }
         }
+
 
 
         EventoDTO nuevoEvento;
@@ -203,6 +221,14 @@ public class EventoController {
             nuevoEvento = this.eventoService.buscarEventoId(id);  // Editar evento existente
         } else{
             nuevoEvento = new EventoDTO();                        // Nuevo evento
+        }
+
+        List<Integer> listaEntradas;
+
+        if(nuevoEvento.getEntradasById() != null && !nuevoEvento.getEntradasById().isEmpty()){
+            listaEntradas = nuevoEvento.getEntradasById();
+        } else{
+            listaEntradas = new ArrayList<>();
         }
 
 
@@ -214,24 +240,25 @@ public class EventoController {
         nuevoEvento.setFechaEvento(fechaEvento);
         nuevoEvento.setFechaFinReservas(fechaEntradas);
         nuevoEvento.setUsuarioByIdCreador(usuario.getId());
+        nuevoEvento.setEventoEtiquetasById(listaEtiquetasId);
+        nuevoEvento.setEntradasById(listaEntradas);
 
-
-        Integer idevento = this.eventoService.guardarEvento(nuevoEvento,usuario, listaEtiquetas);
+        Integer idevento = this.eventoService.guardarEvento(nuevoEvento,usuario);
 
         List<EventoEtiquetaDTO>  listaEventoEtiqueta = new ArrayList<>();
 
         for(EtiquetaDTO et : listaEtiquetas){
             EventoEtiquetaDTO evet = new EventoEtiquetaDTO();
-            evet.setEventoByIdEvento(this.eventoService.buscarEventoId(idevento));
-            evet.setEtiquetaByIdEtiqueta(et);
+            evet.setEventoByIdEvento(this.eventoService.buscarEventoId(idevento).getId());
+            evet.setEtiquetaByIdEtiqueta(et.getId());
             this.eventoEtiquetaService.guardarEventoEtiqueta(evet);
         }
 
 
         if(usuario.getRol() == 0){
-            return "/EventosCargarAdmin";
+            return "redirect:/EventosCargarAdmin";
         }else{
-            return "redirect:/listarEventosCreados";
+            return "redirect:/evento/listarEventosCreados";
         }
 
     }

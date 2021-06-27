@@ -31,4 +31,13 @@ public class EtiquetaService {
         etiqueta.setNombre(et.getNombre());
         this.etiquetaRepository.save(etiqueta);
     }
+
+    public EtiquetaDTO findById(Integer id){
+        Etiqueta et = this.etiquetaRepository.findById(id).orElse(null);
+        if(et != null){
+            return et.getDTO();
+        } else{
+            return null;
+        }
+    }
 }

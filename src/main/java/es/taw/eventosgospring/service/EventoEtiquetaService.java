@@ -5,6 +5,7 @@ import es.taw.eventosgospring.dao.EventoEtiquetaRepository;
 import es.taw.eventosgospring.dao.EventoRepository;
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
+import es.taw.eventosgospring.entity.Etiqueta;
 import es.taw.eventosgospring.entity.Evento;
 import es.taw.eventosgospring.entity.EventoEtiqueta;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class EventoEtiquetaService {
     private  EventoRepository eventoRepository;
 
     @Autowired
-    public void setEventoEtiquetaRepository(EventoEtiquetaRepository eventoEtiqeuetaRepository) {
+    public void setEventoEtiquetaRepository(EventoEtiquetaRepository eventoEtiquetaRepository) {
         this.eventoEtiquetaRepository = eventoEtiquetaRepository;
     }
 
@@ -52,12 +53,23 @@ public class EventoEtiquetaService {
 
     public void guardarEventoEtiqueta(EventoEtiquetaDTO evet) {
         EventoEtiqueta eventoEtiqueta = new EventoEtiqueta();
-        Evento evento = this.eventoRepository.findById(evet.getEventoByIdEvento().getId()).orElse(null);
+        Evento evento = this.eventoRepository.findById(evet.getEventoByIdEvento()).orElse(null);
+        Etiqueta etiqueta = this.etiquetaRepository.findById(evet.getEtiquetaByIdEtiqueta()).orElse(null);
 
-        eventoEtiqueta.setEtiquetaByIdEtiqueta(this.etiquetaRepository.findByName(evet.getEtiquetaByIdEtiqueta().getNombre()));
+        eventoEtiqueta.setEtiquetaByIdEtiqueta(etiqueta);
         eventoEtiqueta.setEventoByIdEvento(evento);
 
         this.eventoEtiquetaRepository.save(eventoEtiqueta);
 
+    }
+
+    public EventoEtiquetaDTO buscarEventoEtiquetaId(Integer id){
+        EventoEtiqueta evet = this.eventoEtiquetaRepository.findById(id).orElse(null);
+
+        if(evet == null){
+            return null;
+        } else{
+            return evet.getDTO();
+        }
     }
 }

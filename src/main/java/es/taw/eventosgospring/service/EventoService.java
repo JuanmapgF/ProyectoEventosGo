@@ -1,15 +1,11 @@
 package es.taw.eventosgospring.service;
 
-import es.taw.eventosgospring.dao.EntradaRepository;
-import es.taw.eventosgospring.dao.EventoRepository;
-import es.taw.eventosgospring.dao.UsuarioRepository;
+import es.taw.eventosgospring.dao.*;
 import es.taw.eventosgospring.dto.EtiquetaDTO;
 import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.EventoEtiquetaDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
-import es.taw.eventosgospring.entity.Entrada;
-import es.taw.eventosgospring.entity.Evento;
-import es.taw.eventosgospring.entity.Usuario;
+import es.taw.eventosgospring.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -25,8 +21,12 @@ public class EventoService {
     private EventoRepository eventoRepository;
     private EntradaRepository entradaRepository;
     private UsuarioRepository usuarioRepository;
+    private EventoEtiquetaRepository eventoEtiquetaRepository;
 
-
+    @Autowired
+    public void setEventoEtiquetaRepository(EventoEtiquetaRepository eventoEtiquetaRepository) {
+        this.eventoEtiquetaRepository = eventoEtiquetaRepository;
+    }
 
     @Autowired
     public void setEntradaRepository(EntradaRepository entradaRepository) {
@@ -162,7 +162,7 @@ public class EventoService {
             return resultado;
         }
 
-    public Integer guardarEvento(EventoDTO nuevoEvento, UsuarioDTO usuario, List<EtiquetaDTO> listaEtiquetas) {
+    public Integer guardarEvento(EventoDTO nuevoEvento, UsuarioDTO usuario) {
         Evento evento;
         Usuario creador = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
@@ -170,6 +170,22 @@ public class EventoService {
             evento = new Evento();
         }else{
             evento = this.buscarEvento(nuevoEvento.getId());
+        }
+
+        List<EventoEtiqueta> listaEventoEtiquetas = new ArrayList<>();
+        for(Integer id : nuevoEvento.getEventoEtiquetasById()){
+            EventoEtiqueta evet = this.eventoEtiquetaRepository.findById(id).orElse(null);
+            if(evet!=null) {
+                listaEventoEtiquetas.add(evet);
+            }
+        }
+
+        List<Entrada> listaEntradas = new ArrayList<>();
+        for(Integer id : nuevoEvento.getEntradasById()){
+            Entrada ent = this.entradaRepository.findById(id).orElse(null);
+            if(ent!=null){
+                listaEntradas.add(ent);
+            }
         }
 
         evento.setTitulo(nuevoEvento.getTitulo());
@@ -180,6 +196,8 @@ public class EventoService {
         evento.setFechaEvento(nuevoEvento.getFechaEvento());
         evento.setFechaFinReservas(nuevoEvento.getFechaFinReservas());
         evento.setUsuarioByIdCreador(creador);
+        evento.setEventoEtiquetasById(listaEventoEtiquetas);
+        evento.setEntradasById(listaEntradas);
 
         this.eventoRepository.save(evento);
 

@@ -16,6 +16,7 @@ public class EventoEtiqueta {
     private Etiqueta etiquetaByIdEtiqueta;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -62,7 +63,8 @@ public class EventoEtiqueta {
     public EventoEtiquetaDTO getDTO(){
         EventoEtiquetaDTO dto = new EventoEtiquetaDTO();
         dto.setId(this.getId());
-
+        dto.setEventoByIdEvento(this.getEventoByIdEvento().getId());
+        dto.setEtiquetaByIdEtiqueta(this.getEtiquetaByIdEtiqueta().getId());
 
         return dto;
     }
