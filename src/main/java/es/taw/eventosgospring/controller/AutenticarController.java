@@ -1,6 +1,10 @@
 package es.taw.eventosgospring.controller;
 
+import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
+import es.taw.eventosgospring.dto.UsuarioEventoDTO;
+import es.taw.eventosgospring.service.EventoService;
+import es.taw.eventosgospring.service.UsuarioEventoService;
 import es.taw.eventosgospring.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class AutenticarController {
     private UsuarioService usuarioService;
+    private UsuarioEventoService usuarioEventoService;
+    private EventoService eventoService;
+
+    @Autowired
+    public void setUsuarioEventoService(UsuarioEventoService usuarioEventoService) {
+        this.usuarioEventoService = usuarioEventoService;
+    }
+
+    @Autowired
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
 
     @Autowired
     public void setUsuarioService(UsuarioService usuarioService) {
@@ -36,26 +53,44 @@ public class AutenticarController {
             strError="Error de autentificación: alguno de los campos está vacío.";
             model.addAttribute("error", strError);
             strTo = "inicioSesion";
-        } else {
+        } else{
             UsuarioDTO user = this.usuarioService.comprobarCredenciales(correo, pass);
-            if(user == null){
+
+            if(user == null) {
                 strError = "Error de autentificación: credenciales incorrectas.";
                 model.addAttribute("error", strError);
                 strTo = "inicioSesion";
-            } else if(user.getRol() == 0) { // Creador
+            } else{
+
                 sesion.setAttribute("usuario", user);
-                strTo = "adminPrincipal";
-            } else if(user.getRol() == 3) { // Analista
-                sesion.setAttribute("usuario", user);
-                strTo = "redirect:/estudios/";
-            }else {
-                sesion.setAttribute("usuario", user);
-                strTo="redirect:/listarEventos";
+
+                switch (user.getRol()){
+                    case 0: strTo="adminPrincipal";
+                            break;
+
+                    case 1: strTo="redirect:/evento/listarEventosCreados";
+                            break;
+
+                    case 2: break;
+
+                    case 3: break;
+
+                    case 4: UsuarioEventoDTO userEvento = this.usuarioEventoService.buscarUsuarioEventoId(user.getId());
+                            sesion.setAttribute("usuarioEvento", userEvento);
+                            strTo="redirect:/evento/listarEventosDisponibles";
+                            break;
+
+                    default: break;
+                }
+
             }
         }
 
+
+
         return strTo;
     }
+
 
     @GetMapping ("/cerrarSesion")
     public String doCerrarSesion(HttpSession sesion){

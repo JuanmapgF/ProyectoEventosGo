@@ -13,6 +13,13 @@ public interface EventoRepository extends JpaRepository<Evento, Integer> {
     @Query("SELECT e from Evento e WHERE e.fechaEvento >= :fechaActual")
     public List<Evento> findEventosDisponibles(@Param("fechaActual") Date fechaActual );
 
-    @Query("SELECT e FROM Evento e WHERE e.fechaEvento BETWEEN :fechaInicioAnio AND :fechaFinAnio")
-    public List<Evento> findEventosByAnio(@Param("fechaInicioAnio") Date fechaInicioAnio, @Param("fechaFinAnio") Date fechaFinAnio);
+    @Query("SELECT e from Evento e WHERE e.usuarioByIdCreador.id = :id")
+    public List<Evento> findByIdCreador(@Param("id") Integer id);
+
+    @Query("SELECT e from Evento e WHERE e.usuarioByIdCreador.id = :id AND e.titulo LIKE %:filtro%")
+    public List<Evento> findByIdCreadorFiltro(@Param("id") Integer id, @Param("filtro") String filtro);
+
+    @Query("SELECT e FROM Evento e WHERE e.id = :id AND e.titulo LIKE %:filtro%")
+    public Evento findByIdAndSimilarName(@Param("id") Integer id, @Param("filtro") String filtro);
 }
+

@@ -25,6 +25,7 @@ public class Usuario {
     private UsuarioEvento usuarioEventoById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -149,28 +150,35 @@ public class Usuario {
         dto.setContrasena(contrasena);
         dto.setRol(rol);
         dto.setNombre(this.nombre);
-        List<ConversacionDTO> conversacionList = new ArrayList<>();
+        List<Integer> conversacionList = new ArrayList<>();
         for(Conversacion c: this.conversacionsById) {
-            conversacionList.add(c.getDTO());
+            conversacionList.add(c.getId());
         }
         dto.setConversacionsById(conversacionList);
-        List<ConversacionDTO> conversacionList1 = new ArrayList<>();
+        List<Integer> conversacionList1 = new ArrayList<>();
         for(Conversacion c: this.conversacionsById_0) {
-            conversacionList1.add(c.getDTO());
+            conversacionList1.add(c.getId());
         }
         dto.setConversacionsById_0(conversacionList1);
-        List<EstudioDTO> estudioDTOS = new ArrayList<>();
+        List<Integer> estudioDTOS = new ArrayList<>();
         for(Estudio e : this.estudiosById) {
-            estudioDTOS.add(e.getDTO());
+            estudioDTOS.add(e.getId());
         }
         dto.setEstudiosById(estudioDTOS);
-        List<MensajeDTO> mensajeDTOS = new ArrayList<>();
+        List<Integer> mensajeDTOS = new ArrayList<>();
         for(Mensaje m : this.mensajesById) {
-            mensajeDTOS.add(m.getDTO());
+            mensajeDTOS.add(m.getId());
         }
         dto.setMensajesById(mensajeDTOS);
-        if(dto.getRol() == 4){
-            dto.setUsuarioEventoById(this.usuarioEventoById.getDTO());
+
+        List<Integer> eventosDTO = new ArrayList<>();
+        for(Evento e: this.eventosById){
+            eventosDTO.add(e.getId());
+        }
+        dto.setEventosById(eventosDTO);
+
+        if(dto.getRol () == 4){
+            dto.setUsuarioEventoById(this.usuarioEventoById.getId());
         }
 
         return dto;

@@ -2,9 +2,9 @@ package es.taw.eventosgospring.dto;
 
 public class EntradaDTO {
     private Integer id;
-    private EventoDTO eventoByIdEvento;
-    private UsuarioEventoDTO usuarioEventoByIdUsuario;
-    private EntradaAforoDTO entradaAforoById;
+    private Integer eventoByIdEvento;
+    private Integer usuarioEventoByIdUsuario;
+    private Integer entradaAforoById;
 
     public Integer getId() {
         return id;
@@ -14,27 +14,27 @@ public class EntradaDTO {
         this.id = id;
     }
 
-    public EventoDTO getEventoByIdEvento() {
+    public Integer getEventoByIdEvento() {
         return eventoByIdEvento;
     }
 
-    public void setEventoByIdEvento(EventoDTO eventoByIdEvento) {
+    public void setEventoByIdEvento(Integer eventoByIdEvento) {
         this.eventoByIdEvento = eventoByIdEvento;
     }
 
-    public UsuarioEventoDTO getUsuarioEventoByIdUsuario() {
+    public Integer getUsuarioEventoByIdUsuario() {
         return usuarioEventoByIdUsuario;
     }
 
-    public void setUsuarioEventoByIdUsuario(UsuarioEventoDTO usuarioEventoByIdUsuario) {
+    public void setUsuarioEventoByIdUsuario(Integer usuarioEventoByIdUsuario) {
         this.usuarioEventoByIdUsuario = usuarioEventoByIdUsuario;
     }
 
-    public EntradaAforoDTO getEntradaAforoById() {
+    public Integer getEntradaAforoById() {
         return entradaAforoById;
     }
 
-    public void setEntradaAforoById(EntradaAforoDTO entradaAforoById) {
+    public void setEntradaAforoById(Integer entradaAforoById) {
         this.entradaAforoById = entradaAforoById;
     }
 }

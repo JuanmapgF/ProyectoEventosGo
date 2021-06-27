@@ -1,29 +1,44 @@
 package es.taw.eventosgospring.controller;
 
+import es.taw.eventosgospring.dto.EntradaDTO;
+import es.taw.eventosgospring.dto.EventoDTO;
 import es.taw.eventosgospring.dto.UsuarioDTO;
 import es.taw.eventosgospring.dto.UsuarioEventoDTO;
+import es.taw.eventosgospring.service.EntradaService;
+import es.taw.eventosgospring.service.EventoService;
 import es.taw.eventosgospring.service.UsuarioEventoService;
 import es.taw.eventosgospring.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 @Controller
+@RequestMapping("usuario")
 public class UsuarioController {
     private UsuarioService usuarioService;
     private UsuarioEventoService usuarioEventoService;
+    private EventoService eventoService;
+    private EntradaService entradaService;
+
+    @Autowired
+    public void setEntradaService(EntradaService entradaService) {
+        this.entradaService = entradaService;
+    }
+
+    @Autowired
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
 
     @Autowired
     public void setUsuarioEventoService(UsuarioEventoService usuarioEventoService) {
         this.usuarioEventoService = usuarioEventoService;
     }
-
     @Autowired
     public void setUsuarioService(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -37,6 +52,23 @@ public class UsuarioController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("usuarioEvento", usuarioEvento);
         return "registro";
+    }
+
+    @GetMapping("/borrarUsuario/{id}")
+    public String doBorrarUsuario(@PathVariable("id") Integer id, Model model,HttpSession session){
+        this.usuarioService.borrarUsuario(id);
+
+        return "redirect:/UsuariosCargarAdmin";
+    }
+
+    @GetMapping("/editarUsuario/{id}")
+    public String doEditarUsuario(@PathVariable("id") Integer id, Model model){
+        String strTo = "editarUsuario";
+
+        UsuarioDTO usuarioDTO = (UsuarioDTO) this.usuarioService.buscarUsuarioId(id);
+        model.addAttribute("usuario",usuarioDTO);
+
+        return strTo;
     }
 
     @PostMapping("/guardar")
@@ -61,7 +93,7 @@ public class UsuarioController {
         } else{
             UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO();
             UsuarioEventoDTO nuevoUsuarioEventoDTO = new UsuarioEventoDTO();
-            strTo="redirect:/listarEventos";
+            strTo="redirect:/evento/listarEventos";
 
             nuevoUsuarioDTO.setRol(4);
             nuevoUsuarioDTO.setNombre(nombre);
@@ -88,5 +120,81 @@ public class UsuarioController {
         return strTo;
     }
 
+    @GetMapping("/reservarEntrada/{idEvento}")
+    public String doReservarEntrada(@PathVariable("idEvento") Integer id, Model model, HttpSession sesion){
+
+        EventoDTO evento = this.eventoService.buscarEventoId(id);
+        UsuarioEventoDTO usuario = (UsuarioEventoDTO) sesion.getAttribute("usuarioEvento");
+
+        Integer entradasCompradas = this.entradaService.findByIdEvento(evento.getId()).size();
+        Integer entradasDisponibles = evento.getAforo() - entradasCompradas;
+
+        model.addAttribute("evento", evento);
+        model.addAttribute("entradasDisponibles", entradasDisponibles);
+        model.addAttribute("entradasCompradas", entradasCompradas);
+
+
+        return "comprarEntradas";
+    }
+
+    @GetMapping ("/comprarEntradas")
+    public String doComprarEntradas(@RequestParam("idEvento") Integer idEvento,
+                                    @RequestParam("idUsuario") Integer idUsuario,
+                                    @RequestParam("entradasDisponibles") Integer entradasDisponibles,
+                                    @RequestParam("entradasCompradasUsuario") Integer entradasCompradasUsuario,
+                                    @RequestParam("entradas") Integer entradas,
+                                    Model model){
+
+        EventoDTO evento = this.eventoService.buscarEventoId(idEvento);
+        UsuarioEventoDTO userEvento = this.usuarioEventoService.buscarUsuarioEventoId(idUsuario);
+        EntradaDTO entrada;
+        String strError="", strTo="redirect:/evento/listarEventosAsistidos";
+
+        int i = 0;
+        if(entradasDisponibles - entradas < 0){
+            strError = "El numero de entradas seleccionada hace superar el aforo máximo de este evento.";
+            model.addAttribute("error", strError);
+
+        } else if(entradas + entradasCompradasUsuario > evento.getMaximoEntradasUsuario()){
+            strError = "El numero de entradas seleccionadas hace superar el numero maximo de entradas por usuario para este evento.";
+            model.addAttribute("error", strError);
+            strTo = "comprarEntradas";
+        }else {
+            while (i < entradas) {
+                entrada = new EntradaDTO();
+                entrada.setEventoByIdEvento(evento.getId());
+                entrada.setUsuarioEventoByIdUsuario(userEvento.getId());
+                // entrada.setEntradaAforoById();
+                this.entradaService.guardarEntrada(entrada);
+                i++;
+            }
+        }
+        return strTo;
+    }
+
+
+    @GetMapping ("/guardarUsuarioAdmin")
+    public String doGuardarUsuarioAdmin(@RequestParam(value="id", required = false) Integer id ,
+                                        @RequestParam("nombre")String name,
+                                        @RequestParam("email")String email,
+                                        @RequestParam("password")String pass,
+                                        @RequestParam("rol")Integer rol){
+
+        UsuarioDTO usuarioDTO;
+        if(id != null){
+            usuarioDTO = (UsuarioDTO) this.usuarioService.buscarUsuarioId(id);
+        }else{
+            usuarioDTO = new UsuarioDTO();
+        }
+
+        usuarioDTO.setNombre(name);
+        usuarioDTO.setCorreo(email);
+        usuarioDTO.setContrasena(pass);
+        usuarioDTO.setRol(rol);
+
+        this.usuarioService.guardarUsuarioAdmin(usuarioDTO);
+
+        return "redirect:/UsuariosCargarAdmin";
+    }
 
 }

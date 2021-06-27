@@ -1,7 +1,10 @@
 package es.taw.eventosgospring.dto;
 
+import es.taw.eventosgospring.entity.Evento;
+
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class EventoDTO {
     private Integer id;
@@ -12,10 +15,10 @@ public class EventoDTO {
     private Double coste;
     private Integer maximoEntradasUsuario;
     private Integer aforo;
-    private List<EntradaDTO> entradasById;
-    private UsuarioDTO usuarioByIdCreador;
-    private EventoAforoDTO eventoAforoById;
-    private List<EventoEtiquetaDTO> eventoEtiquetasById;
+    private List<Integer> entradasById;
+    private Integer usuarioByIdCreador;
+    private Integer eventoAforoById;
+    private List<Integer> eventoEtiquetasById;
 
     public Integer getId() {
         return id;
@@ -81,35 +84,36 @@ public class EventoDTO {
         this.aforo = aforo;
     }
 
-    public List<EntradaDTO> getEntradasById() {
+    public List<Integer> getEntradasById() {
         return entradasById;
     }
 
-    public void setEntradasById(List<EntradaDTO> entradasById) {
+    public void setEntradasById(List<Integer> entradasById) {
         this.entradasById = entradasById;
     }
 
-    public UsuarioDTO getUsuarioByIdCreador() {
+    public Integer getUsuarioByIdCreador() {
         return usuarioByIdCreador;
     }
 
-    public void setUsuarioByIdCreador(UsuarioDTO usuarioByIdCreador) {
+    public void setUsuarioByIdCreador(Integer usuarioByIdCreador) {
         this.usuarioByIdCreador = usuarioByIdCreador;
     }
 
-    public EventoAforoDTO getEventoAforoById() {
+    public Integer getEventoAforoById() {
         return eventoAforoById;
     }
 
-    public void setEventoAforoById(EventoAforoDTO eventoAforoById) {
+    public void setEventoAforoById(Integer eventoAforoById) {
         this.eventoAforoById = eventoAforoById;
     }
 
-    public List<EventoEtiquetaDTO> getEventoEtiquetasById() {
+    public List<Integer> getEventoEtiquetasById() {
         return eventoEtiquetasById;
     }
 
-    public void setEventoEtiquetasById(List<EventoEtiquetaDTO> eventoEtiquetasById) {
+    public void setEventoEtiquetasById(List<Integer> eventoEtiquetasById) {
         this.eventoEtiquetasById = eventoEtiquetasById;
     }
+
 }

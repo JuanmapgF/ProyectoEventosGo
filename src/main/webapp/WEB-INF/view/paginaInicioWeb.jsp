@@ -45,13 +45,13 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="Imagenes/Ejemplo1.jpg" class="d-block w-100" alt="...">
+            <img src="/Imagenes/Ejemplo1.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="Imagenes/Ejemplo2.jpg" class="d-block w-100" alt="...">
+            <img src="/Imagenes/Ejemplo2.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="Imagenes/Ejemplo3.jpg" class="d-block w-100" alt="...">
+            <img src="/Imagenes/Ejemplo3.jpg" class="d-block w-100" alt="...">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -69,11 +69,11 @@
 %>
 
 <div class="card" style="width: 18rem;">
-    <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
+    <img src="/Imagenes/eventoEjemplo.jpg" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title"><%= evento.getTitulo() %></h5>
         <p class="card-text"><%= evento.getDescripcion()%></p>
-        <a class="btn btn-primary bi bi-hammer" href="evento/verEvento/<%= evento.getId() %>" role="button"> Ir al evento</a>
+        <a class="btn btn-primary bi bi-hammer" href="/evento/verEvento/<%= evento.getId() %>" role="button"> Ir al evento</a>
     </div>
 </div>
 <%
