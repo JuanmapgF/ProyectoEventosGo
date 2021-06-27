@@ -65,7 +65,7 @@
         <h1>Datos del evento</h1>
     </header>
 
-    <form method='POST' action="/evento/guardarEvento">
+    <form method='POST' action="ServletEventoGuardar">
         <div class="container">
             <div class="row">
                 <div class="col-8">
